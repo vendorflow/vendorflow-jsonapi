@@ -1,2 +1,1 @@
-# vendorflow-jsonapi
-JSON:API model library
+# vendorflow-azimuth-spring-boot-starter
