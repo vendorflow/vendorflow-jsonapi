@@ -1,4 +1,4 @@
-package co.vendorflow.oss.jsonapi.processor;
+package ${rci.packageName};
 
 @javax.annotation.Generated("co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor")
 public final class ${rci.registrationSimpleName} implements co.vendorflow.oss.jsonapi.jackson.JsonApiTypeRegistration {
