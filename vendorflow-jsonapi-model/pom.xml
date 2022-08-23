@@ -17,14 +17,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-        </dependency>
-        
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.7</version>
+            <version>3.11</version>
         </dependency>
 
         <dependency>
@@ -38,11 +33,6 @@
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <version>${spock.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.groovy</groupId>
-            <artifactId>groovy-json</artifactId>
             <scope>test</scope>
         </dependency>
 
