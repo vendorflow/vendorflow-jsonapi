@@ -18,14 +18,7 @@ import co.vendorflow.oss.jsonapi.model.JsonApiResource
 import groovy.json.JsonSlurper
 import spock.lang.Specification
 
-class AttributesToDtoProcessorJacksonTest extends Specification {
-    private static final ObjectMapper jackson = new ObjectMapper()
-        .enable(INDENT_OUTPUT)
-        .findAndRegisterModules()
-        .registerModule(new JsonApiModule())
-
-    private static final JsonSlurper jsonSlurper = new JsonSlurper()
-
+class AttributesToDtoProcessorJacksonTest extends JacksonTest {
     private static final Validator validator = Validation.byDefaultProvider()
         .configure()
         .messageInterpolator(new ParameterMessageInterpolator())

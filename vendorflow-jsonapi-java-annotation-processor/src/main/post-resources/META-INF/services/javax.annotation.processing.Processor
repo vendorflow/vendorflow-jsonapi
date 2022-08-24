@@ -1,1 +1,2 @@
 co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor
+co.vendorflow.oss.jsonapi.processor.TypeRegistrationProcessor

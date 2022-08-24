@@ -86,7 +86,7 @@ class AttributesToDtoProcessorTest extends Specification {
     @CompileStatic
     Compilation compile(JavaFileObject... jfos) {
         javac()
-            .withProcessors(new AttributesToDtoProcessor())
+            .withProcessors(new AttributesToDtoProcessor(), new TypeRegistrationProcessor())
             .compile(jfos)
     }
 
