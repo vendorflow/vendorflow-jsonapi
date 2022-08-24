@@ -1,5 +1,7 @@
 package co.vendorflow.oss.jsonapi.jackson
 
+import static co.vendorflow.oss.jsonapi.model.links.JsonApiLink.linkObject
+import static co.vendorflow.oss.jsonapi.model.links.JsonApiLink.linkUri
 import static java.util.UUID.randomUUID
 
 import co.vendorflow.oss.jsonapi.model.links.JsonApiLink
@@ -64,7 +66,7 @@ class LinksSerializationTest extends JacksonTest {
     def 'round-tripping link object'() {
         given:
         def uri = newUri()
-        def original = JsonApiLink.asObject('test', uri)
+        def original = linkObject('test', uri)
 
         when:
         def json = JACKSON.writeValueAsString(original)
@@ -90,9 +92,9 @@ class LinksSerializationTest extends JacksonTest {
         def wackyUri = newUri()
 
         def original = new JsonApiLinks()
-            .add(JsonApiLink.asUri('bare', bareUri))
-            .add(JsonApiLink.asObject('sane', saneUri))
-            .tap { put('different', JsonApiLink.asObject('other', wackyUri)) }
+            .add(linkUri('bare', bareUri))
+            .add(linkObject('sane', saneUri))
+            .tap { put('different', linkObject('other', wackyUri)) }
 
         when:
         def json = JACKSON.writeValueAsString(original)
