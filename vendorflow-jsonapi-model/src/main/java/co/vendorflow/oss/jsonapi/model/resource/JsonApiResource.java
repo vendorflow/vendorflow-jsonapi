@@ -1,8 +1,9 @@
-package co.vendorflow.oss.jsonapi.model;
+package co.vendorflow.oss.jsonapi.model.resource;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
+import co.vendorflow.oss.jsonapi.model.HasJsonApiMeta;
 import co.vendorflow.oss.jsonapi.model.links.HasJsonApiLinks;
 import co.vendorflow.oss.jsonapi.model.links.JsonApiLinks;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public abstract class JsonApiResource<A, M> implements HasJsonApiMeta<M>, HasJso
     M meta;
 
     @Valid
-    JsonApiLinks links;
+    JsonApiLinks links = new JsonApiLinks();
 
     @Override
     public final JsonApiResourceId asResourceId() {

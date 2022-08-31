@@ -1,12 +1,19 @@
 package ${rci.packageName};
+
+import javax.annotation.Generated;
 import javax.validation.constraints.NotNull;
 import javax.validation.Valid;
 
-@co.vendorflow.oss.jsonapi.model.JsonApiType("${rci.jsonApiType}")
-@com.fasterxml.jackson.annotation.JsonTypeName("${rci.jsonApiType}")
-@javax.annotation.Generated("co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor")
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiType;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonApiType("${rci.jsonApiType}")
+@JsonTypeName("${rci.jsonApiType}")
+@Generated("co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor")
 public final class ${rci.simpleName} 
-    extends co.vendorflow.oss.jsonapi.model.JsonApiResource<
+    extends JsonApiResource<
         ${attr.qualifiedName},
         ${rci.metaTypeParameter}
     >

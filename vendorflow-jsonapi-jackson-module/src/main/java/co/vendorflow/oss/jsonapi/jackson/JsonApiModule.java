@@ -6,9 +6,9 @@ import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiLinkMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiResourceMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiLinkMixin.BareUriMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiLinksMixin;
-import co.vendorflow.oss.jsonapi.model.JsonApiResource;
 import co.vendorflow.oss.jsonapi.model.links.JsonApiLink;
 import co.vendorflow.oss.jsonapi.model.links.JsonApiLinks;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
 
 public class JsonApiModule extends SimpleModule {
     @SuppressWarnings("unused")

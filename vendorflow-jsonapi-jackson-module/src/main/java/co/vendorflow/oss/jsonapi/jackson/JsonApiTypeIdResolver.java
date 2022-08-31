@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.DatabindContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
 
-import co.vendorflow.oss.jsonapi.model.JsonApiResource;
-import co.vendorflow.oss.jsonapi.model.JsonApiType;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiType;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

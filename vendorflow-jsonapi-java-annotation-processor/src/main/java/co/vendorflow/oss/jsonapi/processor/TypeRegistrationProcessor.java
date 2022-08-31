@@ -20,10 +20,10 @@ import javax.lang.model.util.Elements;
 import javax.tools.FileObject;
 
 import co.vendorflow.oss.jsonapi.jackson.JsonApiTypeRegistration;
-import co.vendorflow.oss.jsonapi.model.JsonApiType;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiType;
 import lombok.Value;
 
-@SupportedAnnotationTypes("co.vendorflow.oss.jsonapi.model.JsonApiType")
+@SupportedAnnotationTypes("co.vendorflow.oss.jsonapi.model.resource.JsonApiType")
 @SupportedSourceVersion(RELEASE_9)
 public class TypeRegistrationProcessor extends FreemarkerProcessor {
     private static final String JAT_CLASS_NAME = JsonApiType.class.getName();

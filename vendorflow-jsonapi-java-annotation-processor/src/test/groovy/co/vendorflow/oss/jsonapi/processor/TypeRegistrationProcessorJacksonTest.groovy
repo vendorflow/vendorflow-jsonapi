@@ -5,7 +5,7 @@ import javax.validation.Validator
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
 
-import co.vendorflow.oss.jsonapi.model.JsonApiResource
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource
 
 class TypeRegistrationProcessorJacksonTest extends JacksonTest {
 

@@ -14,7 +14,7 @@ import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
 import com.fasterxml.jackson.databind.ObjectMapper
 
 import co.vendorflow.oss.jsonapi.jackson.JsonApiModule
-import co.vendorflow.oss.jsonapi.model.JsonApiResource
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource
 import groovy.json.JsonSlurper
 import spock.lang.Specification
 

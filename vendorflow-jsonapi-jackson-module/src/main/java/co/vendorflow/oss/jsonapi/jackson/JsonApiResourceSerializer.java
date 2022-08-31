@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-import co.vendorflow.oss.jsonapi.model.HasJsonApiResourceId;
+import co.vendorflow.oss.jsonapi.model.resource.HasJsonApiResourceId;
 
 public class JsonApiResourceSerializer extends StdSerializer<HasJsonApiResourceId> {
 

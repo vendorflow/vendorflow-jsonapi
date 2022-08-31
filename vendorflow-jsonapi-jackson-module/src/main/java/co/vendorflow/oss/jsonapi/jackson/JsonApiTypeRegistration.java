@@ -1,6 +1,6 @@
 package co.vendorflow.oss.jsonapi.jackson;
 
-import co.vendorflow.oss.jsonapi.model.JsonApiResource;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
 
 public interface JsonApiTypeRegistration {
     String namespace();

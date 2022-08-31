@@ -21,10 +21,10 @@ import com.google.testing.compile.Compilation
 import com.google.testing.compile.JavaFileObjects
 
 import co.vendorflow.oss.jsonapi.jackson.JsonApiModule
-import co.vendorflow.oss.jsonapi.model.JsonApiAttributes
-import co.vendorflow.oss.jsonapi.model.JsonApiAttributes.MapStringObject
-import co.vendorflow.oss.jsonapi.model.JsonApiResource
-import co.vendorflow.oss.jsonapi.model.JsonApiResourceId
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes.MapStringObject
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId
 import co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor.ResourceClassInfo
 import groovy.transform.CompileStatic
 import groovy.transform.TupleConstructor
@@ -75,7 +75,7 @@ class AttributesToDtoProcessorTest extends Specification {
     @CompileStatic
     JavaFileObject attrClass(String pkg, String clazz, String annotationAttrs) {
         String attrSource = """package $pkg;
-        @co.vendorflow.oss.jsonapi.model.JsonApiAttributes($annotationAttrs)
+        @co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes($annotationAttrs)
         public class $clazz {
         }"""
 

@@ -14,10 +14,10 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
-import co.vendorflow.oss.jsonapi.model.JsonApiAttributes;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes;
 import lombok.Value;
 
-@SupportedAnnotationTypes("co.vendorflow.oss.jsonapi.model.JsonApiAttributes")
+@SupportedAnnotationTypes("co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes")
 @SupportedSourceVersion(RELEASE_9)
 public class AttributesToDtoProcessor extends FreemarkerProcessor {
     private static final String JAA_CLASS_NAME = JsonApiAttributes.class.getName();

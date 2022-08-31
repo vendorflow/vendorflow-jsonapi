@@ -1,4 +1,4 @@
-package co.vendorflow.oss.jsonapi.model;
+package co.vendorflow.oss.jsonapi.model.resource;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
