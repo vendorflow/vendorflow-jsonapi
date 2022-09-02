@@ -9,6 +9,8 @@ import static com.google.testing.compile.CompilationSubject.assertThat
 import static com.google.testing.compile.Compiler.javac
 import static javax.tools.StandardLocation.CLASS_OUTPUT
 
+import java.lang.reflect.Modifier
+
 import javax.lang.model.element.Name
 import javax.lang.model.element.TypeElement
 import javax.lang.model.util.Elements
@@ -25,6 +27,7 @@ import co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes.MapStringObject
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiType
 import co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor.ResourceClassInfo
 import groovy.transform.CompileStatic
 import groovy.transform.TupleConstructor
@@ -106,7 +109,16 @@ class AttributesToDtoProcessorTest extends Specification {
         and: 'the generated Resource class loads and has the expected annotation'
         def loader = new CompilationClassPath(compilation).toClassLoader()
         def resourceClass = loader.loadClass('test.pkg.QuuxResource')
+        'quuxes' == resourceClass.getAnnotation(JsonApiType).value()
         'quuxes' == resourceClass.getAnnotation(JsonTypeName).value()
+
+        and: 'a TYPE constant was included'
+        def typeConstant = resourceClass.getDeclaredField('TYPE')
+        def tcModifiers = typeConstant.modifiers
+        Modifier.isPublic(tcModifiers)
+        Modifier.isStatic(tcModifiers)
+        Modifier.isFinal(tcModifiers)
+        'quuxes' == typeConstant.get(null)
 
         when:
         JsonApiResource dto = resourceClass.constructors.find { it.parameterCount == 0 }.newInstance()
