@@ -5,9 +5,9 @@ import static javax.tools.Diagnostic.Kind.ERROR;
 import static javax.tools.Diagnostic.Kind.NOTE;
 import static javax.tools.StandardLocation.CLASS_OUTPUT;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,10 +29,12 @@ public class TypeRegistrationProcessor extends FreemarkerProcessor {
     private static final String JAT_CLASS_NAME = JsonApiType.class.getName();
 
     static final String SPI_TYPE_MANIFEST = "META-INF/services/" + JsonApiTypeRegistration.class.getCanonicalName();
-    private final List<String> spiTypeRegistrations = new ArrayList<>();
+    private Set<String> spiTypeRegistrations;
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        readExisting();
+
         annotations.stream()
                 .filter(ann -> ann.toString().equals(JAT_CLASS_NAME))
                 .map(roundEnv::getElementsAnnotatedWith)
@@ -45,6 +47,21 @@ public class TypeRegistrationProcessor extends FreemarkerProcessor {
         }
 
         return false;
+    }
+
+
+    void readExisting() {
+        if (spiTypeRegistrations != null) {
+            return;
+        }
+
+        spiTypeRegistrations = new LinkedHashSet<>();
+
+        try (var br = new BufferedReader(processingEnv.getFiler().getResource(CLASS_OUTPUT, "", SPI_TYPE_MANIFEST).openReader(false))) {
+            br.lines().forEach(spiTypeRegistrations::add);
+        } catch (IOException e) {
+            processingEnv.getMessager().printMessage(NOTE, "did not read existing type registrations");
+        }
     }
 
 
