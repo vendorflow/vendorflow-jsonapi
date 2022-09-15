@@ -10,7 +10,7 @@
         <version>0.2.5</version>
     </parent>
 
-    <artifactId>vendorflow-jsonapi-java-annotation-processor</artifactId>
+    <artifactId>vendorflow-jsonapi-groovy-annotation-processor</artifactId>
 
     <properties>
     </properties>
@@ -27,6 +27,15 @@
         <dependency>
             <groupId>co.vendorflow.oss.jsonapi</groupId>
             <artifactId>vendorflow-jsonapi-jackson-module</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-macro</artifactId>
         </dependency>
 
         <dependency>
@@ -154,6 +163,8 @@
                     <execution>
                         <id>default</id>
                         <goals>
+                            <goal>addSources</goal>
+                            <goal>compile</goal>
                             <goal>addTestSources</goal>
                             <goal>compileTests</goal>
                         </goals>

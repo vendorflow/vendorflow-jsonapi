@@ -21,7 +21,7 @@ import javax.tools.FileObject;
 
 import co.vendorflow.oss.jsonapi.jackson.JsonApiTypeRegistration;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiType;
-import lombok.Value;
+import co.vendorflow.oss.jsonapi.processor.support.TypeRegistrationClassInfo;
 
 @SupportedAnnotationTypes("co.vendorflow.oss.jsonapi.model.resource.JsonApiType")
 @SupportedSourceVersion(RELEASE_9)
@@ -66,7 +66,7 @@ public class TypeRegistrationProcessor extends FreemarkerProcessor {
 
 
     void generateRegistration(TypeElement resourceClass) {
-        var tr = TypeRegistrationClassInfo.forElement(resourceClass, processingEnv.getElementUtils());
+        var tr = forElement(resourceClass, processingEnv.getElementUtils());
 
         writeClass("JsonApiTypeRegistration", tr.getFqcn(), Map.of("tr", tr), resourceClass);
         spiTypeRegistrations.add(tr.getFqcn());
@@ -90,34 +90,15 @@ public class TypeRegistrationProcessor extends FreemarkerProcessor {
     }
 
 
-    @Value
-    public static class TypeRegistrationClassInfo {
-        String packageName;
-        String resourceClassSimpleName;
-        String jsonApiType;
+    static TypeRegistrationClassInfo forElement(TypeElement res, Elements elements) {
+        var packageName = elements.getPackageOf(res).getQualifiedName().toString();
+        var jsonApiType = extractJsonApiType(res);
 
-        public String getSimpleName() {
-            return "$" + resourceClassSimpleName + "TypeRegistration";
-        }
-
-        public String getFqcn() {
-            return packageName + "." + getSimpleName();
-        }
-
-        public String getResourceFqcn() {
-            return packageName + "." + resourceClassSimpleName;
-        }
-
-        static TypeRegistrationClassInfo forElement(TypeElement res, Elements elements) {
-            var packageName = elements.getPackageOf(res).getQualifiedName().toString();
-            var jsonApiType = extractJsonApiType(res);
-
-            return new TypeRegistrationClassInfo(
-                    packageName,
-                    res.getSimpleName().toString(),
-                    jsonApiType
-            );
-        }
+        return new TypeRegistrationClassInfo(
+                packageName,
+                res.getSimpleName().toString(),
+                jsonApiType
+        );
     }
 
 

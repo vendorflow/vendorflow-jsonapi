@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.ServiceLoader.Provider;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.DatabindContext;
@@ -20,9 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 public class JsonApiTypeIdResolver extends TypeIdResolverBase {
     private static final Map<String, Class<? extends JsonApiResource<?, ?>>> registrations;
 
+    public static Stream<JsonApiTypeRegistration> findRegistrations() {
+        return ServiceLoader.load(JsonApiTypeRegistration.class).stream()
+            .map(Provider::get);
+    }
+
     static {
-        registrations = ServiceLoader.load(JsonApiTypeRegistration.class).stream()
-                .map(Provider::get)
+        registrations = findRegistrations()
                 .peek(tr -> log.debug("registering JSON:API type {} as {}", tr.typeName(), tr.typeClass()))
                 .collect(toMap(JsonApiTypeRegistration::typeName, JsonApiTypeRegistration::typeClass));
 
