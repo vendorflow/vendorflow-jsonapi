@@ -8,7 +8,10 @@ import java.lang.annotation.Target;
 
 import org.codehaus.groovy.transform.GroovyASTTransformationClass;
 
-@GroovyASTTransformationClass("co.vendorflow.oss.jsonapi.groovy.transform.JsonApiTypeAstTransformation")
+@GroovyASTTransformationClass({
+    "co.vendorflow.oss.jsonapi.groovy.transform.JsonApiTypeInlineClassesAstTransformation",
+    "co.vendorflow.oss.jsonapi.groovy.transform.JsonApiTypeAstTransformation",
+})
 @Retention(RUNTIME)
 @Target(TYPE)
 public @interface JsonApiType {

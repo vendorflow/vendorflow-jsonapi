@@ -1,10 +1,7 @@
 package co.vendorflow.oss.jsonapi.processor
 
-import static co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor.MSO_CLASS_NAME
-import static co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor.generateDtoSource
-import static co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor.metaTypeParameter
 import static co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor.resourceSimpleName
-import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
+import static co.vendorflow.oss.jsonapi.processor.support.ResourceClassInfo.MSO_CLASS_NAME
 import static com.google.testing.compile.CompilationSubject.assertThat
 import static com.google.testing.compile.Compiler.javac
 import static javax.tools.StandardLocation.CLASS_OUTPUT
@@ -12,23 +9,16 @@ import static javax.tools.StandardLocation.CLASS_OUTPUT
 import java.lang.reflect.Modifier
 
 import javax.lang.model.element.Name
-import javax.lang.model.element.TypeElement
-import javax.lang.model.util.Elements
 import javax.tools.JavaFileObject
-import javax.tools.StandardLocation
 
 import com.fasterxml.jackson.annotation.JsonTypeName
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.testing.compile.Compilation
 import com.google.testing.compile.JavaFileObjects
 
-import co.vendorflow.oss.jsonapi.jackson.JsonApiModule
-import co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes
-import co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes.MapStringObject
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiType
-import co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor.ResourceClassInfo
+import co.vendorflow.oss.jsonapi.processor.CompilationClassPath
 import groovy.transform.CompileStatic
 import groovy.transform.TupleConstructor
 import groovy.transform.stc.POJO

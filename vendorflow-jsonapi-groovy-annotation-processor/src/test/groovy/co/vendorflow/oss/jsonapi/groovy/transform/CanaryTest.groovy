@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class CanaryTest extends Specification {
 
-    @JsonApiType(Attr.TYPE)
+    //@JsonApiType(Attr.TYPE)
     @CompileStatic
     @POJO
     static class Attr {
