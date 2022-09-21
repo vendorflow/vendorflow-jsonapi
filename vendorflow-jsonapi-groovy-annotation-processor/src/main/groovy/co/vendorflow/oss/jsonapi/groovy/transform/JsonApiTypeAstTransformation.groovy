@@ -47,9 +47,6 @@ class JsonApiTypeAstTransformation extends AbstractASTTransformation {
         init(nodes, source)
         ClassNode resource = nodes[1] as ClassNode
 
-        var outDir = source.AST.unit.config.targetDirectory
-        var spiFile = outDir.toPath().resolve(SPI_PATH).toFile()
-
         var trci = trci(nodes[0] as AnnotationNode, resource)
 
         var components = buildTypeComponents(trci)
@@ -63,6 +60,14 @@ class JsonApiTypeAstTransformation extends AbstractASTTransformation {
         var trcn = buildRegistrationClass(trci)
         source.AST.addClass(trcn)
 
+
+        var outDir = source.AST.unit.config.targetDirectory
+        if (!outDir) {
+            // transformation is being run "speculatively" and not as part of a live build, so skip processing.
+            return
+        }
+
+        var spiFile = outDir.toPath().resolve(SPI_PATH).toFile()
         synchronized (JsonApiTypeAstTransformation) { // file locks apply to the entire JVM
             try (def chan = channelFor(spiFile)) {
                 chan.lock(0, MAX_VALUE, true)
