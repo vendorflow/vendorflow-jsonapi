@@ -1,12 +1,23 @@
 package co.vendorflow.oss.jsonapi.groovy.transform
 
 import static java.lang.Long.MAX_VALUE
+import static java.lang.reflect.Modifier.FINAL
+import static java.lang.reflect.Modifier.PUBLIC
+import static java.lang.reflect.Modifier.STATIC
 import static java.nio.channels.Channels.newReader
 import static java.nio.channels.Channels.newWriter
 import static java.nio.charset.StandardCharsets.UTF_8
+import static org.codehaus.groovy.ast.ClassHelper.OBJECT_TYPE
+import static org.codehaus.groovy.ast.ClassHelper.STRING_TYPE
 import static org.codehaus.groovy.ast.ClassHelper.make
+import static org.codehaus.groovy.ast.tools.GeneralUtils.args
+import static org.codehaus.groovy.ast.tools.GeneralUtils.asX
 import static org.codehaus.groovy.ast.tools.GeneralUtils.classX
 import static org.codehaus.groovy.ast.tools.GeneralUtils.constX
+import static org.codehaus.groovy.ast.tools.GeneralUtils.ctorX
+import static org.codehaus.groovy.ast.tools.GeneralUtils.param
+import static org.codehaus.groovy.ast.tools.GeneralUtils.returnS
+import static org.codehaus.groovy.ast.tools.GeneralUtils.varX
 
 import java.nio.channels.FileChannel
 import java.nio.file.Path
@@ -15,6 +26,7 @@ import org.codehaus.groovy.ast.ASTNode
 import org.codehaus.groovy.ast.AnnotationNode
 import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.MethodNode
+import org.codehaus.groovy.ast.Parameter
 import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.control.SourceUnit
 import org.codehaus.groovy.macro.transform.MacroClass
@@ -22,6 +34,7 @@ import org.codehaus.groovy.transform.AbstractASTTransformation
 import org.codehaus.groovy.transform.GroovyASTTransformation
 
 import co.vendorflow.oss.jsonapi.jackson.JsonApiTypeRegistration
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiType
 import co.vendorflow.oss.jsonapi.processor.support.TypeRegistrationClassInfo
 import groovy.transform.CompileDynamic
@@ -36,6 +49,9 @@ class JsonApiTypeAstTransformation extends AbstractASTTransformation {
     private static final ClassNode INTERFACE_JATR = make(JsonApiTypeRegistration)
     private static final ClassNode ANNOTATION_CS = make(CompileStatic)
     private static final ClassNode ANNOTATION_POJO = make(POJO)
+
+    private static final ClassNode TYPE_JARI = make(JsonApiResourceId)
+    private static final Parameter OBJECT_PARAM = param(OBJECT_TYPE, 'value')
 
 
     @Override
@@ -55,6 +71,9 @@ class JsonApiTypeAstTransformation extends AbstractASTTransformation {
         }
         if (resource.getMethod('getType')?.abstract) {
             resource.addMethod(components.getMethod('getType'))
+        }
+        if (! resource.getMethod('id', OBJECT_PARAM)) {
+            resource.addMethod(buildStaticIdMethod(trci))
         }
 
         var trcn = buildRegistrationClass(trci)
@@ -102,12 +121,26 @@ class JsonApiTypeAstTransformation extends AbstractASTTransformation {
 
     @CompileDynamic
     ClassNode buildTypeComponents(TypeRegistrationClassInfo trci) {
+        var jat = constX(trci.jsonApiType)
+
         return new MacroClass() {
-            class GetTypeMethod {
-                public static final java.lang.String TYPE = $v { constX(trci.jsonApiType) }
-                java.lang.String getType() { $v { constX(trci.jsonApiType) } }
+            class ResourceTypeComponents {
+                public static final java.lang.String TYPE = $v { jat }
+                java.lang.String getType() { $v { jat } }
             }
         }
+    }
+
+
+    MethodNode buildStaticIdMethod(TypeRegistrationClassInfo trci) { // GROOVY-10768
+        new MethodNode(
+            'id',
+            PUBLIC | STATIC ,
+            TYPE_JARI,
+            [OBJECT_PARAM] as Parameter[],
+            ClassNode.EMPTY_ARRAY,
+            returnS(ctorX(TYPE_JARI, args(constX(trci.jsonApiType), asX(STRING_TYPE, varX(OBJECT_PARAM)))))
+        )
     }
 
 

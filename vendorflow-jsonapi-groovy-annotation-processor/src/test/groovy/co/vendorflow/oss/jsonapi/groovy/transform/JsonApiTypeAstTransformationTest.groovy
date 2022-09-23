@@ -1,6 +1,7 @@
 package co.vendorflow.oss.jsonapi.groovy.transform
 
 import co.vendorflow.oss.jsonapi.jackson.JsonApiTypeIdResolver
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiType
 import spock.lang.Specification
 
@@ -13,6 +14,12 @@ class JsonApiTypeAstTransformationTest extends Specification {
         expect:
         TYPE_NAME == ExplicitResource.TYPE
         TYPE_NAME == new ExplicitResource().type
+    }
+
+
+    def 'static id method is added to the annotated class'() {
+        expect:
+        JsonApiResourceId.of(TYPE_NAME, '1234') == ExplicitResource.id(1234)
     }
 
 

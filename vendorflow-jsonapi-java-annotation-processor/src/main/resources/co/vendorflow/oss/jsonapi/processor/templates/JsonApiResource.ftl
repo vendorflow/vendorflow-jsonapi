@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.Valid;
 
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiType;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -21,6 +22,8 @@ public final class ${rci.simpleName}
   public static final String TYPE = "${rci.jsonApiType}";
 
   @Override public String getType() { return TYPE; }
+  
+  public static JsonApiResourceId id(Object id) { return JsonApiResourceId.of(TYPE, id); }
   
   @Override public void setAttributes(${attr.qualifiedName} value) { super.setAttributes(value); }
   <#if !rci.attributesNullable>

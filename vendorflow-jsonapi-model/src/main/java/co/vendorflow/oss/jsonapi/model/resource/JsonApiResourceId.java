@@ -12,7 +12,7 @@ public final class JsonApiResourceId {
         return new StringBuilder(type).append('/').append(id).toString();
     }
 
-    public static JsonApiResourceId of(String type, String id) {
-        return new JsonApiResourceId(type, id);
+    public static JsonApiResourceId of(String type, Object id) {
+        return new JsonApiResourceId(type, String.valueOf(id));
     }
 }

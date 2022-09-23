@@ -122,6 +122,9 @@ class AttributesToDtoProcessorTest extends Specification {
         dto.toString().contains('id=1234')
 
         and:
+        JsonApiResourceId.of('quuxes', '9876') == resourceClass.getDeclaredMethod('id', Object).invoke(null, 9876)
+
+        and:
         def spiLines = compilation
             .generatedFile(CLASS_OUTPUT, 'META-INF/services/co.vendorflow.oss.jsonapi.jackson.JsonApiTypeRegistration').get()
             .openReader(false)
