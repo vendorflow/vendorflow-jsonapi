@@ -25,13 +25,16 @@ import org.codehaus.groovy.ast.Parameter
 
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource
 import groovy.transform.CompileStatic
+import groovy.transform.Generated
 import groovy.transform.stc.POJO
 
 @CompileStatic
 @POJO
 final class ResourceClassElements {
-    public static final ClassNode TYPE_NOT_NULL = make(NotNull)
-    public static final ClassNode TYPE_JSON_API_RESOURCE = makeWithoutCaching(JsonApiResource)
+    public static final ClassNode ANNOTATION_NOT_NULL = make(NotNull)
+    public static final ClassNode ANNOTATION_JSON_API_RESOURCE = makeWithoutCaching(JsonApiResource)
+
+    private static final ClassNode ANNOTATION_GENERATED = make(Generated)
 
     static ClassNode type_MapStringObject() {
         makeClassSafeWithGenerics(MAP_TYPE, STRING_TYPE.asGenericsType(), OBJECT_TYPE.asGenericsType())
@@ -40,7 +43,7 @@ final class ResourceClassElements {
 
     static void maybeAddNotNull(AnnotatedNode e, boolean nullable) {
         if (!nullable) {
-            e.addAnnotation(TYPE_NOT_NULL)
+            e.addAnnotation(ANNOTATION_NOT_NULL)
         }
     }
 
@@ -56,7 +59,10 @@ final class ResourceClassElements {
                 ClassNode.EMPTY_ARRAY,
                 body
         )
-            .tap { maybeAddNotNull(it, nullable) }
+            .tap {
+                addAnnotation ANNOTATION_GENERATED
+                maybeAddNotNull(it, nullable)
+            }
     }
 
 
@@ -74,6 +80,7 @@ final class ResourceClassElements {
                 ClassNode.EMPTY_ARRAY,
                 body
         )
+            .tap { addAnnotation ANNOTATION_GENERATED }
     }
 
 
@@ -88,7 +95,7 @@ final class ResourceClassElements {
 
 
     static void makeResource(ClassNode resource, GenericsType attr, boolean attributesNullable, GenericsType meta) {
-        def sc = makeClassSafeWithGenerics(TYPE_JSON_API_RESOURCE, attr, meta)
+        def sc = makeClassSafeWithGenerics(ANNOTATION_JSON_API_RESOURCE, attr, meta)
         resource.superClass = sc
         resource.usingGenerics = true  // GROOVY-10763
 

@@ -1,12 +1,12 @@
 package co.vendorflow.oss.jsonapi.groovy.transform
 
 import static java.lang.Long.MAX_VALUE
-import static java.lang.reflect.Modifier.FINAL
 import static java.lang.reflect.Modifier.PUBLIC
 import static java.lang.reflect.Modifier.STATIC
 import static java.nio.channels.Channels.newReader
 import static java.nio.channels.Channels.newWriter
 import static java.nio.charset.StandardCharsets.UTF_8
+import static org.apache.groovy.ast.tools.AnnotatedNodeUtils.markAsGenerated
 import static org.codehaus.groovy.ast.ClassHelper.OBJECT_TYPE
 import static org.codehaus.groovy.ast.ClassHelper.STRING_TYPE
 import static org.codehaus.groovy.ast.ClassHelper.make
@@ -39,6 +39,7 @@ import co.vendorflow.oss.jsonapi.model.resource.JsonApiType
 import co.vendorflow.oss.jsonapi.processor.support.TypeRegistrationClassInfo
 import groovy.transform.CompileDynamic
 import groovy.transform.CompileStatic
+import groovy.transform.Generated
 import groovy.transform.stc.POJO
 
 @GroovyASTTransformation
@@ -49,6 +50,7 @@ class JsonApiTypeAstTransformation extends AbstractASTTransformation {
     private static final ClassNode INTERFACE_JATR = make(JsonApiTypeRegistration)
     private static final ClassNode ANNOTATION_CS = make(CompileStatic)
     private static final ClassNode ANNOTATION_POJO = make(POJO)
+    private static final ClassNode ANNOTATION_GENERATED = make(Generated)
 
     private static final ClassNode TYPE_JARI = make(JsonApiResourceId)
     private static final Parameter OBJECT_PARAM = param(OBJECT_TYPE, 'value')
@@ -67,13 +69,13 @@ class JsonApiTypeAstTransformation extends AbstractASTTransformation {
 
         var components = buildTypeComponents(trci)
         if (! resource.getField('TYPE')) {
-            resource.addField(components.getField('TYPE'))
+            resource.addField(components.getField('TYPE').tap { addAnnotation ANNOTATION_GENERATED } )
         }
         if (resource.getMethod('getType')?.abstract) {
-            resource.addMethod(components.getMethod('getType'))
+            resource.addMethod(components.getMethod('getType').tap { addAnnotation ANNOTATION_GENERATED } )
         }
         if (! resource.getMethod('id', OBJECT_PARAM)) {
-            resource.addMethod(buildStaticIdMethod(trci))
+            resource.addMethod(buildStaticIdMethod(trci).tap { addAnnotation ANNOTATION_GENERATED } )
         }
 
         var trcn = buildRegistrationClass(trci)
@@ -157,6 +159,7 @@ class JsonApiTypeAstTransformation extends AbstractASTTransformation {
             addInterface INTERFACE_JATR
             addAnnotation ANNOTATION_CS
             addAnnotation ANNOTATION_POJO
+            addAnnotation ANNOTATION_GENERATED
         }
     }
 }

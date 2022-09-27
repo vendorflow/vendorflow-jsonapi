@@ -1,6 +1,6 @@
 package co.vendorflow.oss.jsonapi.groovy.transform
 
-import static co.vendorflow.oss.jsonapi.groovy.transform.ResourceClassElements.TYPE_NOT_NULL
+import static co.vendorflow.oss.jsonapi.groovy.transform.ResourceClassElements.ANNOTATION_NOT_NULL
 import static co.vendorflow.oss.jsonapi.groovy.transform.ResourceClassElements.addAccessors
 import static co.vendorflow.oss.jsonapi.groovy.transform.ResourceClassElements.makeResource
 import static co.vendorflow.oss.jsonapi.groovy.transform.ResourceClassElements.type_MapStringObject
@@ -50,6 +50,7 @@ import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiType
 import co.vendorflow.oss.jsonapi.processor.support.ResourceClassInfo
 import groovy.transform.CompileStatic
+import groovy.transform.Generated
 import groovy.transform.PackageScope
 import groovy.transform.stc.POJO
 
@@ -62,10 +63,11 @@ class JsonApiAttributesAstTransformation extends AbstractASTTransformation {
 
     private static final ClassNode TYPE_COMPILE_STATIC = make(CompileStatic)
     private static final ClassNode TYPE_POJO = make(POJO)
+    private static final ClassNode TYPE_GENERATED = make(Generated)
 
 
     private static final String METHOD_NAME_AS_RESOURCE = 'asResource'
-    private static final Parameter PARAM_ID = param(OBJECT_TYPE, 'id').tap { addAnnotation TYPE_NOT_NULL }
+    private static final Parameter PARAM_ID = param(OBJECT_TYPE, 'id').tap { addAnnotation ANNOTATION_NOT_NULL }
 
 
     @Override
@@ -132,6 +134,7 @@ class JsonApiAttributesAstTransformation extends AbstractASTTransformation {
             addAnnotation(new AnnotationNode(TYPE_JAT).tap { setMember('value', constX(rci.jsonApiType)) })
             addAnnotation(TYPE_COMPILE_STATIC)
             addAnnotation(TYPE_POJO)
+            addAnnotation(TYPE_GENERATED)
         }
     }
 
@@ -154,6 +157,6 @@ class JsonApiAttributesAstTransformation extends AbstractASTTransformation {
             [PARAM_ID] as Parameter[],
             ClassNode.EMPTY_ARRAY,
             body
-        )
+        ).tap { addAnnotation TYPE_GENERATED }
     }
 }
