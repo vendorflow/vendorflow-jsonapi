@@ -1,7 +1,7 @@
 // https://github.com/groovy/groovy-eclipse/wiki/DSL-Descriptors
 package dsld
 
-contribute(currentType(annotations: annotatedBy('co.vendorflow.oss.jsonapi.model.JsonApiType'))) {
+contribute(currentType(annotations: annotatedBy('co.vendorflow.oss.jsonapi.model.resource.JsonApiType'))) {
     for (annotationNode in annotations) {
         property name: 'TYPE', type: String, isStatic: true, readOnly: true
         delegatesTo type: 'co.vendorflow.oss.jsonapi.model.resource.JsonApiResource'
