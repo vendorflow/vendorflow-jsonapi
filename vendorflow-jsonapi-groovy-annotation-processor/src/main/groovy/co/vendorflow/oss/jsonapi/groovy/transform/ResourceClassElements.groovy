@@ -48,13 +48,13 @@ final class ResourceClassElements {
     }
 
 
-    static MethodNode buildGetter(String name, GenericsType type, boolean nullable = true) {
+    static MethodNode buildGetter(String name, ClassNode type, boolean nullable = true) {
         var body = returnS(callSuperX(name))
 
         new MethodNode(
                 name,
                 PUBLIC | FINAL,
-                type.type,
+                type,
                 Parameter.EMPTY_ARRAY,
                 ClassNode.EMPTY_ARRAY,
                 body
@@ -66,8 +66,8 @@ final class ResourceClassElements {
     }
 
 
-    static MethodNode buildSetter(String name, GenericsType type, boolean nullable = true) {
-        var valueParam = param(type.type, 'value')
+    static MethodNode buildSetter(String name, ClassNode type, boolean nullable = true) {
+        var valueParam = param(type, 'value')
             .tap { maybeAddNotNull(it, nullable) }
 
         var body = stmt(callSuperX(name, varX(valueParam)))
@@ -85,11 +85,14 @@ final class ResourceClassElements {
 
 
     static void addAccessors(ClassNode resource, GenericsType attr, boolean attributesNullable, GenericsType meta) {
+        def acn = attr.type.plainNodeReference  // otherwise the compiler complains if you use generic properties inside
+        def mcn = meta.type.plainNodeReference
+
         resource.tap {
-            addMethod(buildGetter('getAttributes', attr, attributesNullable))
-            addMethod(buildSetter('setAttributes', attr, attributesNullable))
-            addMethod(buildGetter('getMeta', meta))
-            addMethod(buildSetter('setMeta', meta))
+            addMethod(buildGetter('getAttributes', acn, attributesNullable))
+            addMethod(buildSetter('setAttributes', acn, attributesNullable))
+            addMethod(buildGetter('getMeta', mcn))
+            addMethod(buildSetter('setMeta', mcn))
         }
     }
 
