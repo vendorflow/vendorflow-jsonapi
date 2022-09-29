@@ -1,5 +1,7 @@
 package co.vendorflow.oss.jsonapi.model.resource;
 
+import java.util.function.Consumer;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
@@ -26,8 +28,19 @@ public abstract class JsonApiResource<A, M> implements HasJsonApiMeta<M>, HasJso
     @Valid
     M meta;
 
+
     @Valid
     JsonApiLinks links = new JsonApiLinks();
+
+
+    @Valid
+    JsonApiRelationships relationships = new JsonApiRelationships();
+
+    public JsonApiResource<A, M> relationships(Consumer<JsonApiRelationships> builder) {
+        builder.accept(relationships);
+        return this;
+    }
+
 
     @Override
     public final JsonApiResourceId asResourceId() {

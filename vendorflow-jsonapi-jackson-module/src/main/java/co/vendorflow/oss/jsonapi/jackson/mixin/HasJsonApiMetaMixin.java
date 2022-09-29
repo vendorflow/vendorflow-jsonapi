@@ -4,7 +4,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public interface HasJsonApiMetaMixin<M> {
+public interface HasJsonApiMetaMixin<M> extends JsonApiJacksonMixin {
     @JsonInclude(NON_EMPTY)
     M getMeta();
 }

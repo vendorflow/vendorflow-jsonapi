@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import co.vendorflow.oss.jsonapi.model.links.JsonApiLinks;
 
-public interface HasJsonApiLinksMixin {
+public interface HasJsonApiLinksMixin extends JsonApiJacksonMixin {
     @JsonInclude(NON_EMPTY)
     JsonApiLinks getLinks();
 }

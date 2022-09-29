@@ -60,6 +60,11 @@
             </dependency>
             <dependency>
                 <groupId>co.vendorflow.oss.jsonapi</groupId>
+                <artifactId>vendorflow-jsonapi-java-annotation-processor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.vendorflow.oss.jsonapi</groupId>
                 <artifactId>vendorflow-jsonapi-jackson-module</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -74,7 +79,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.10.1</version>
             </plugin>
 
             <plugin>

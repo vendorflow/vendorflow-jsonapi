@@ -9,13 +9,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import co.vendorflow.oss.jsonapi.jackson.serdes.LinkValueDeserializer;
 
 @JsonDeserialize(using = LinkValueDeserializer.class)
-public interface JsonApiLinkMixin {
+public interface JsonApiLinkMixin extends JsonApiJacksonMixin {
 
-    public interface BareUriMixin {
+    public interface BareUriMixin extends JsonApiJacksonMixin {
         @JsonValue
         URI getHref();
     }
 
     @JsonDeserialize(using = JsonDeserializer.None.class) // don't inherit special handling from superclass
-    public interface LinkObjectMixin {}
+    public interface LinkObjectMixin extends JsonApiJacksonMixin {}
 }

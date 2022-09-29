@@ -1,5 +1,6 @@
 package co.vendorflow.oss.jsonapi.jackson;
 
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiType;
 import co.vendorflow.oss.jsonapi.model.resource.MapAttributesJsonApiResource;
 
@@ -12,4 +13,8 @@ public class MapTestResource extends MapAttributesJsonApiResource {
         return TYPE;
     }
 
+
+    public static JsonApiResourceId mtrid(String id) {
+        return new JsonApiResourceId(TYPE, id);
+    }
 }
