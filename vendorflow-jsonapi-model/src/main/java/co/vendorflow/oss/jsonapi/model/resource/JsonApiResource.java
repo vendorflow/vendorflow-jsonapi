@@ -36,9 +36,10 @@ public abstract class JsonApiResource<A, M> implements HasJsonApiMeta<M>, HasJso
     @Valid
     JsonApiRelationships relationships = new JsonApiRelationships();
 
-    public JsonApiResource<A, M> relationships(Consumer<JsonApiRelationships> builder) {
+    @SuppressWarnings("unchecked") // oh, for self types
+    public <SELF extends JsonApiResource<A, M>> SELF relationships(Consumer<JsonApiRelationships> builder) {
         builder.accept(relationships);
-        return this;
+        return (SELF) this;
     }
 
 

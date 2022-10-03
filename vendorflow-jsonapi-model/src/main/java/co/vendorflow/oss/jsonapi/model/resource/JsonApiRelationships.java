@@ -3,7 +3,6 @@ package co.vendorflow.oss.jsonapi.model.resource;
 import static java.util.Collections.unmodifiableSet;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
