@@ -1,0 +1,4 @@
+moduleName=JSON:API Spring Web MVC extensions
+moduleVersion=0.0.1
+extensionClasses=\
+    co.vendorflow.oss.jsonapi.groovy.spring.webmvc.JsonApiSpringWebMvcExtensions

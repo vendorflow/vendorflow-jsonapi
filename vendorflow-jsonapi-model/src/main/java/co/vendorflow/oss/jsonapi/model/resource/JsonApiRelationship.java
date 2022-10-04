@@ -46,12 +46,16 @@ public final class JsonApiRelationship {
      * @return the included resources' IDs
      */
     public Collection<JsonApiResourceId> getData() {
+        return dataStream().collect(toList());
+    }
+
+
+    private Stream<JsonApiResourceId> dataStream() {
         return Stream.concat(
                 included.stream().map(HasJsonApiResourceId::asResourceId),
                 linked.stream()
         )
-            .distinct()
-            .collect(toList());
+            .distinct();
     }
 
 
@@ -77,6 +81,14 @@ public final class JsonApiRelationship {
 
     public JsonApiRelationship include(JsonApiResource<?, ?>... resources) {
         return include(asList(resources));
+    }
+
+    public long size() {
+        return dataStream().count();
+    }
+
+    public boolean isSingleValued() {
+        return size() == 1;
     }
 
 

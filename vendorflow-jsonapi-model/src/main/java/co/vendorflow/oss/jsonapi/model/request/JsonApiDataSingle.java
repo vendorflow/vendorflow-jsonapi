@@ -8,7 +8,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class JsonApiDataSingle<A, RM, M, R extends JsonApiResource<A, RM>> extends JsonApiDataTopLevel<R, M> {
+public class JsonApiDataSingle<A, RM, M, R extends JsonApiResource<A, RM>> extends JsonApiDataDocument<R, M> {
     public static <A, RM, M, R extends JsonApiResource<A, RM>> JsonApiDataSingle<A, RM, M, R> of(R resource) {
         JsonApiDataSingle<A, RM, M, R> ds = new JsonApiDataSingle<>();
         ds.setData(resource);

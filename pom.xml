@@ -24,6 +24,8 @@
 
     <modules>
         <module>vendorflow-jsonapi-model</module>
+        <module>vendorflow-jsonapi-groovy-pipeline</module>
+        <module>vendorflow-jsonapi-groovy-spring-webmvc</module>
         <module>vendorflow-jsonapi-jackson-module</module>
         <module>vendorflow-jsonapi-annotation-processor-support</module>
         <module>vendorflow-jsonapi-java-annotation-processor</module>
@@ -65,8 +67,19 @@
             </dependency>
             <dependency>
                 <groupId>co.vendorflow.oss.jsonapi</groupId>
+                <artifactId>vendorflow-jsonapi-groovy-annotation-processor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>co.vendorflow.oss.jsonapi</groupId>
                 <artifactId>vendorflow-jsonapi-jackson-module</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.vavr</groupId>
+                <artifactId>vavr</artifactId>
+                <version>${vavr.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

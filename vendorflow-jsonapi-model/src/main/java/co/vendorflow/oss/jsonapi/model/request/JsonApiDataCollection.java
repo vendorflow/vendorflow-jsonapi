@@ -11,7 +11,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class JsonApiDataCollection<A, RM, M, R extends JsonApiResource<A, RM>> extends JsonApiDataTopLevel<Collection<R>, M> {
+public class JsonApiDataCollection<A, RM, M, R extends JsonApiResource<A, RM>> extends JsonApiDataDocument<Collection<R>, M> {
     {
         data = new ArrayList<>();
     }

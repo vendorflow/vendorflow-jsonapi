@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 
 import co.vendorflow.oss.jsonapi.jackson.mixin.HasJsonApiLinksMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.HasJsonApiMetaMixin;
+import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiErrorMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiJacksonMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiLinkMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiLinkMixin.BareUriMixin;
@@ -15,6 +16,7 @@ import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiRelationshipMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiRelationshipsMixin;
 import co.vendorflow.oss.jsonapi.jackson.mixin.JsonApiResourceMixin;
 import co.vendorflow.oss.jsonapi.model.HasJsonApiMeta;
+import co.vendorflow.oss.jsonapi.model.error.JsonApiError;
 import co.vendorflow.oss.jsonapi.model.links.HasJsonApiLinks;
 import co.vendorflow.oss.jsonapi.model.links.JsonApiLink;
 import co.vendorflow.oss.jsonapi.model.links.JsonApiLinks;
@@ -37,6 +39,8 @@ public class JsonApiModule extends SimpleModule {
             // relationship objects
             .put(JsonApiRelationship.class, JsonApiRelationshipMixin.class)
             .put(JsonApiRelationships.class, JsonApiRelationshipsMixin.class)
+            // errors
+            .put(JsonApiError.class, JsonApiErrorMixin.class)
             .build();
 
 
