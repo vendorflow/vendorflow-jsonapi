@@ -2,11 +2,15 @@ package co.vendorflow.oss.jsonapi.groovy.spring.webmvc;
 
 import static lombok.AccessLevel.PRIVATE;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 
 import co.vendorflow.oss.jsonapi.model.error.JsonApiError;
+import co.vendorflow.oss.jsonapi.model.request.JsonApiDataSingle;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiDocument;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiErrorDocument;
+import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
 import io.vavr.control.Either;
 import lombok.NoArgsConstructor;
 
@@ -88,5 +92,33 @@ public final class JsonApiSpringWebMvcExtensions {
             Either<JsonApiErrorDocument<R>, ResponseEntity<JsonApiDocument<R, ?>>> self
     ) {
         return self.getOrElseGet(JsonApiSpringWebMvcExtensions::toResponseEntity);
+    }
+
+
+    private static <A, RM, R extends JsonApiResource<A, RM>>
+    HeadersAndBody<JsonApiDataSingle<A, RM, Map<String, Object>, R>> toDataSingleWithHeaders(
+            R self
+    ) {
+        return HeadersAndBody.of(JsonApiDataSingle.of(self));
+    }
+
+
+    /**
+     * Map a Resource object to a {@link HeadersAndBody} with a {@link JsonApiDataSingle} body
+     * containing the resource.
+     *
+     * @param <A> the attribute type of the resource
+     * @param <RM> the meta type of the resource
+     * @param <R> the resource type
+     * @param self the receiver
+     * @return if this is a Resource, a {@code Right} of the Resource wrapped into a
+     *   {@code HeadersAndBody<JsonApiDataSingle<R>>}; if this is a {@code Left}, returned unchanged
+     */
+    public static <A, RM, R extends JsonApiResource<A, RM>>
+    Either<JsonApiErrorDocument<R>, HeadersAndBody<JsonApiDataSingle<A, RM, Map<String, Object>, R>>>
+    mapToDataSingleWithHeaders(
+            Either<JsonApiErrorDocument<R>, R> self
+    ) {
+        return self.map(JsonApiSpringWebMvcExtensions::toDataSingleWithHeaders);
     }
 }
