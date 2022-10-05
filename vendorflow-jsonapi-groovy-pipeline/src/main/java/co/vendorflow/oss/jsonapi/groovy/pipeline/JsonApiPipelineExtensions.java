@@ -204,6 +204,26 @@ public final class JsonApiPipelineExtensions {
 
 
     /**
+     * Maps a {@code DomainAndResource} object to a {@link JsonApiDataSingle}
+     * object containing the resource.
+     *
+     * @param <A> the resource's attribute type
+     * @param <RM> the resource's meta type
+     * @param <R> the resource's type
+     * @param self the receiver
+     * @return a Right of a document containing the resource,
+     *   or a Left if this object was already a Left
+     */
+    public static <A, RM, R extends JsonApiResource<A, RM>>
+    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, Map<String, Object>, R>>
+    mapResourceToDataSingle(
+            Either<JsonApiErrorDocument<R>, DomainAndResource<?, R>> self
+    ) {
+        return self.map(dar -> JsonApiDataSingle.of(dar.resource()));
+    }
+
+
+    /**
      * Maps a collection of {@code DomainAndResource} objects to a {@link JsonApiDataCollection}
      * object containing the resources.
      *
