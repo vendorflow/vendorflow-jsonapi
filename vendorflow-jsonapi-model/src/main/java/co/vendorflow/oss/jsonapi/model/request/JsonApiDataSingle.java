@@ -8,9 +8,9 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class JsonApiDataSingle<A, RM, M, R extends JsonApiResource<A, RM>> extends JsonApiDataDocument<R, M> {
-    public static <A, RM, M, R extends JsonApiResource<A, RM>> JsonApiDataSingle<A, RM, M, R> of(R resource) {
-        JsonApiDataSingle<A, RM, M, R> ds = new JsonApiDataSingle<>();
+public class JsonApiDataSingle<A, RM, R extends JsonApiResource<A, RM>, M> extends JsonApiDataDocument<R, M> {
+    public static <A, RM, R extends JsonApiResource<A, RM>, M> JsonApiDataSingle<A, RM, R, M> of(R resource) {
+        JsonApiDataSingle<A, RM, R, M> ds = new JsonApiDataSingle<>();
         ds.setData(resource);
         return ds;
     }

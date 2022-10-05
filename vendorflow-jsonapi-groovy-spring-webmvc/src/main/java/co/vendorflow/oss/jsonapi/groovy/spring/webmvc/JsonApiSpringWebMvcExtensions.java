@@ -96,7 +96,7 @@ public final class JsonApiSpringWebMvcExtensions {
 
 
     private static <A, RM, R extends JsonApiResource<A, RM>>
-    HeadersAndBody<JsonApiDataSingle<A, RM, Map<String, Object>, R>> toDataSingleWithHeaders(
+    HeadersAndBody<JsonApiDataSingle<A, RM, R, Map<String, Object>>> toDataSingleWithHeaders(
             R self
     ) {
         return HeadersAndBody.of(JsonApiDataSingle.of(self));
@@ -115,7 +115,7 @@ public final class JsonApiSpringWebMvcExtensions {
      *   {@code HeadersAndBody<JsonApiDataSingle<R>>}; if this is a {@code Left}, returned unchanged
      */
     public static <A, RM, R extends JsonApiResource<A, RM>>
-    Either<JsonApiErrorDocument<R>, HeadersAndBody<JsonApiDataSingle<A, RM, Map<String, Object>, R>>>
+    Either<JsonApiErrorDocument<R>, HeadersAndBody<JsonApiDataSingle<A, RM, R, Map<String, Object>>>>
     mapToDataSingleWithHeaders(
             Either<JsonApiErrorDocument<R>, R> self
     ) {

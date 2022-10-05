@@ -100,10 +100,10 @@ public final class JsonApiPipelineExtensions {
      *   produces an error, or a Right of the original request object
      */
     @SafeVarargs
-    public static <A, M, REQ extends JsonApiResource<A, M>, R>
-    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, M, ?, REQ>>
+    public static <A, RM, REQ extends JsonApiResource<A, RM>, M, R>
+    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, REQ, M>>
     validate(
-            Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, M, ?, REQ>> self,
+            Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, REQ, M>> self,
             JsonApiValidationRule<? super REQ>... rules
     ) {
         return self.flatMap(single ->
@@ -111,7 +111,7 @@ public final class JsonApiPipelineExtensions {
                 .map(rule -> rule.validate(single.getData()))
                 .flatMap(Collection::stream)
                 .collect(JsonApiErrorDocument.<R> toJsonApiErrorDocument())
-                .<Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, M, ?, REQ>>> map(Either::left)
+                .<Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, REQ, M>>> map(Either::left)
                 .orElse(self)
         );
     }
@@ -128,7 +128,7 @@ public final class JsonApiPipelineExtensions {
      * @param toResource a function mapping the domain object to a resource
      * @return a Right containing the (domain, resource) pair, or the same object if this was a Left
      */
-    public static <D, R extends JsonApiResource<?, ?>>
+    public static <D, A, RM, R extends JsonApiResource<A, RM>>
     Either<JsonApiErrorDocument<R>, DomainAndResource<D, R>>
     mapWithResource(
             Either<JsonApiErrorDocument<R>, D> self,
@@ -148,7 +148,7 @@ public final class JsonApiPipelineExtensions {
      * @param toResource a function mapping the domain object to a resource
      * @return a Right containing the List of (domain, resource) pairs
      */
-    public static <D, R extends JsonApiResource<?, ?>>
+    public static <D, A, RM, R extends JsonApiResource<A, RM>>
     Either<JsonApiErrorDocument<R>, List<DomainAndResource<D, R>>>
     mapWithResources(
             Collection<D> self,
@@ -215,7 +215,7 @@ public final class JsonApiPipelineExtensions {
      *   or a Left if this object was already a Left
      */
     public static <A, RM, R extends JsonApiResource<A, RM>>
-    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, Map<String, Object>, R>>
+    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, R, Map<String, Object>>>
     mapResourceToDataSingle(
             Either<JsonApiErrorDocument<R>, DomainAndResource<?, R>> self
     ) {
