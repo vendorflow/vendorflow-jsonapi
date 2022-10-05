@@ -29,7 +29,7 @@ unresolvedProperty { expr ->
 
 methodNotFound { receiver, name, argList, argTypes, call ->
     if (! isClassClassNodeWrappingConcreteType(receiver)) {
-        return emptyList()
+        return []
     }
 
     def staticReceiver = receiver.genericsTypes[0].type
