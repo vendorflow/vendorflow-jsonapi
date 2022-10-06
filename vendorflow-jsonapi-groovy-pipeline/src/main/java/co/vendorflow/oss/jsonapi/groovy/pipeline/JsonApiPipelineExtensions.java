@@ -175,7 +175,7 @@ public final class JsonApiPipelineExtensions {
     public static <DOM, D, R extends JsonApiResource<?, ?>>
     Either<JsonApiErrorDocument<D>, List<DomainAndResource<DOM, R>>>
     mapWithResources(
-            Either<JsonApiErrorDocument<D>, Collection<DOM>> self,
+            Either<JsonApiErrorDocument<D>, ? extends Collection<DOM>> self,
             Function<? super DOM, ? extends R> toResource
     ) {
         return self.map(ds -> ds.stream()
@@ -192,14 +192,15 @@ public final class JsonApiPipelineExtensions {
      * @param <DOM> the type of the domain objects
      * @param <R> the type of the resource objects
      * @param <D> the response data type
+     * @param <L> the list type
      * @param self the receiver
      * @param consumer the action to take on each (domain, resource) pair
      * @return this Either, unchanged
      */
-    public static <DOM, D, R extends JsonApiResource<?, ?>>
-    Either<JsonApiErrorDocument<D>, List<DomainAndResource<DOM, R>>>
+    public static <DOM, D, R extends JsonApiResource<?, ?>, L extends List<DomainAndResource<DOM, R>>>
+    Either<JsonApiErrorDocument<D>, L>
     forEachDomainAndResource(
-            Either<JsonApiErrorDocument<D>, List<DomainAndResource<DOM, R>>> self,
+            Either<JsonApiErrorDocument<D>, L> self,
             BiConsumer<? super DOM, ? super R> consumer
     ) {
         self.forEach(dars -> dars.forEach(dar -> consumer.accept(dar.domain(), dar.resource())));
@@ -221,7 +222,7 @@ public final class JsonApiPipelineExtensions {
     public static <A, RM, R extends JsonApiResource<A, RM>>
     Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, R, Map<String, Object>>>
     mapResourceToDataSingle(
-            Either<JsonApiErrorDocument<R>, DomainAndResource<?, R>> self
+            Either<JsonApiErrorDocument<R>, DomainAndResource<?, ? extends R>> self
     ) {
         return self.map(dar -> JsonApiDataSingle.of(dar.resource()));
     }
@@ -241,7 +242,7 @@ public final class JsonApiPipelineExtensions {
     public static <A, RM, R extends JsonApiResource<A, RM>>
     Either<JsonApiErrorDocument<Collection<R>>, JsonApiDataCollection<A, RM, Map<String, Object>, R>>
     mapResourcesToDataCollection(
-            Either<JsonApiErrorDocument<Collection<R>>, Collection<DomainAndResource<?, R>>> self
+            Either<JsonApiErrorDocument<Collection<R>>, ? extends Collection<DomainAndResource<?, R>>> self
     ) {
         return self.map(dars -> dars.stream().map(DomainAndResource::resource).collect(toDataCollection()));
     }

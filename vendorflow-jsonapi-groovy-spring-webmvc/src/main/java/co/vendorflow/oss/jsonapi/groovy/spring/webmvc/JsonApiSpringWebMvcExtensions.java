@@ -68,7 +68,7 @@ public final class JsonApiSpringWebMvcExtensions {
     public static <D>
     ResponseEntity<JsonApiDocument<D, ?>>
     foldToResponseEntity(
-            Either<JsonApiErrorDocument<D>, JsonApiDocument<D, ?>> self
+            Either<JsonApiErrorDocument<D>, ? extends JsonApiDocument<D, ?>> self
     ) {
         return self.fold(
                 JsonApiSpringWebMvcExtensions::toResponseEntity,
