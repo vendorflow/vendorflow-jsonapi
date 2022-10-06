@@ -21,14 +21,14 @@ public final class JsonApiSpringWebMvcExtensions {
      * Wrap an error document in a {@link ResponseEntity}. The HTTP status code
      * for the {@code ResponseEntity} will be set based on the first error present.
      *
-     * @param <R> the resource that was otherwise expected to have been returned
+     * @param <D> the data type otherwise expected to have been returned
      * @param doc the errors document
      * @return a {@code ResponseEntity} containing {@code errors}
      */
-    public static <R>
-    ResponseEntity<JsonApiDocument<R, ?>>
+    public static <D>
+    ResponseEntity<JsonApiDocument<D, ?>>
     toResponseEntity(
-            JsonApiErrorDocument<R> doc
+            JsonApiErrorDocument<D> doc
     ) {
         var errors = doc.getErrors();
         if (errors.isEmpty()) {
@@ -44,12 +44,12 @@ public final class JsonApiSpringWebMvcExtensions {
      * Wrap a single error into an error document and then into a {@link ResponseEntity}.
      *
      * @see #toResponseEntity(JsonApiErrorDocument)
-     * @param <R> the resource that was otherwise expected to have been returned
+     * @param <D> the data type otherwise expected to have been returned
      * @param e an error object
      * @return a {@code ResponseEntity} containing the error
      */
-    public static <R>
-    ResponseEntity<JsonApiDocument<R, ?>>
+    public static <D>
+    ResponseEntity<JsonApiDocument<D, ?>>
     toResponseEntity(
             JsonApiError e
     ) {
@@ -61,14 +61,14 @@ public final class JsonApiSpringWebMvcExtensions {
      * Fold a possible Left error document or Right with a response document to a
      * Spring MVC {@link ResponseEntity}.
      *
-     * @param <R> the top-level resource type of the response
+     * @param <D> the top-level data type of the response
      * @param self the receiver
      * @return a {@code ResponseEntity} containing either {@code errors} or {@code data}
      */
-    public static <R>
-    ResponseEntity<JsonApiDocument<R, ?>>
+    public static <D>
+    ResponseEntity<JsonApiDocument<D, ?>>
     foldToResponseEntity(
-            Either<JsonApiErrorDocument<R>, JsonApiDocument<R, ?>> self
+            Either<JsonApiErrorDocument<D>, JsonApiDocument<D, ?>> self
     ) {
         return self.fold(
                 JsonApiSpringWebMvcExtensions::toResponseEntity,
@@ -82,14 +82,14 @@ public final class JsonApiSpringWebMvcExtensions {
      * This can be used if the pipeline has already produced a complete entity, in particular if
      * it has programmatically set headers.
      *
-     * @param <R> the top-level resource type of the response
+     * @param <D> the top-level data type of the response
      * @param self the receiver
      * @return the {@code ResponseEntity} in the Right or a {@code ResponseEntity} containing the {@code errors} in the Left
      */
-    public static <R>
-    ResponseEntity<JsonApiDocument<R, ?>>
+    public static <D>
+    ResponseEntity<JsonApiDocument<D, ?>>
     foldErrorsAndResponseEntity(
-            Either<JsonApiErrorDocument<R>, ResponseEntity<JsonApiDocument<R, ?>>> self
+            Either<JsonApiErrorDocument<D>, ResponseEntity<JsonApiDocument<D, ?>>> self
     ) {
         return self.getOrElseGet(JsonApiSpringWebMvcExtensions::toResponseEntity);
     }

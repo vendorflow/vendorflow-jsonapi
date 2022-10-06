@@ -8,7 +8,7 @@ import co.vendorflow.oss.jsonapi.model.links.JsonApiLinks;
 import lombok.Data;
 
 @Data
-public abstract class JsonApiDocument<R, M> implements HasJsonApiLinks, HasJsonApiMeta<M> {
+public abstract class JsonApiDocument<D, M> implements HasJsonApiLinks, HasJsonApiMeta<M> {
     @Valid
     protected JsonApiLinks links = new JsonApiLinks();
 

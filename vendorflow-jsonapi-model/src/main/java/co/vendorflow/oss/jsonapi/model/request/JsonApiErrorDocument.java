@@ -16,16 +16,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JsonApiErrorDocument<R> extends JsonApiDocument<R, Map<String, Object>> {
+public class JsonApiErrorDocument<D> extends JsonApiDocument<D, Map<String, Object>> {
     List<JsonApiError> errors = new ArrayList<>();
 
-    public JsonApiErrorDocument<R> addError(JsonApiError error) {
+    public JsonApiErrorDocument<D> addError(JsonApiError error) {
         this.errors.add(error);
         return this;
     }
 
 
-    public JsonApiErrorDocument<R> addErrors(Collection<JsonApiError> errors) {
+    public JsonApiErrorDocument<D> addErrors(Collection<JsonApiError> errors) {
         this.errors.addAll(errors);
         return this;
     }
@@ -41,16 +41,16 @@ public class JsonApiErrorDocument<R> extends JsonApiDocument<R, Map<String, Obje
      * Collects a potential stream of errors into an error document. If no errors are present,
      * then the {@code Optional} will be empty.
      *
-     * @param <R> a placeholder for the response resource type
+     * @param <D> a placeholder for the response data type
      * @return a present error document if the stream contained any errors, or an empty {@code Optional} if no errors were found
      */
-    public static <R> Collector<JsonApiError, ?, Optional<JsonApiErrorDocument<R>>> toJsonApiErrorDocument() {
+    public static <D> Collector<JsonApiError, ?, Optional<JsonApiErrorDocument<D>>> toJsonApiErrorDocument() {
         return Collectors.collectingAndThen(
                 toList(),
                 errors ->
                         errors.isEmpty()
                         ? Optional.empty()
-                        : Optional.of(new JsonApiErrorDocument<R>().addErrors(errors))
+                        : Optional.of(new JsonApiErrorDocument<D>().addErrors(errors))
         );
     }
 }
