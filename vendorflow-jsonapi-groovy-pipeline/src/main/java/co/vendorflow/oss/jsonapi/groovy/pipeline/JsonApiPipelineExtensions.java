@@ -15,6 +15,7 @@ import java.util.function.Function;
 import co.vendorflow.oss.jsonapi.groovy.pipeline.validation.JsonApiValidationRule;
 import co.vendorflow.oss.jsonapi.model.error.JsonApiError;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiDataCollection;
+import co.vendorflow.oss.jsonapi.model.request.JsonApiDataCollectionResourceIds;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiDataSingle;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiErrorDocument;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
@@ -327,5 +328,59 @@ public final class JsonApiPipelineExtensions {
             Either<JsonApiErrorDocument<Collection<R>>, ? extends Collection<DomainAndResource<?, R>>> self
     ) {
         return self.map(dars -> dars.stream().map(DomainAndResource::resource).collect(toDataCollection()));
+    }
+
+
+    /* ID operations *********************************************************/
+
+    /**
+     * Maps a collection of business IDs to {@link JsonApiResourceId}s of the specified type.
+     *
+     * @param ids the business IDs
+     * @param jsonApiType the JSON:API type name
+     * @return the JSON:API resource IDs for the business records
+     */
+    public static
+    List<JsonApiResourceId>
+    toResourceIds(
+            Collection<?> ids,
+            String jsonApiType
+    ) {
+        return ids.stream()
+            .map(Object::toString)
+            .map(str -> JsonApiResourceId.of(jsonApiType, str))
+            .collect(toList());
+    }
+
+
+    /**
+     * Wraps a collection of {@link JsonApiResourceId} objects into a top-level document whose
+     * {@code data} will contain only resource IDs.
+     *
+     * @param <M> the meta type of the document
+     * @param ids the resource IDs
+     * @return a document containing the resource IDs
+     */
+    public static <M>
+    JsonApiDataCollectionResourceIds<M>
+    toResourceIdDocument(
+            Collection<JsonApiResourceId> ids
+    ) {
+        return JsonApiDataCollectionResourceIds.of(ids);
+    }
+
+
+    /**
+     * Shorthand for
+     * <pre> .toResourceIds(jsonApiType)
+     * .toResourceIdDocument()</pre>
+     */
+    public static <M>
+    JsonApiDataCollectionResourceIds<M>
+    toResourceIdDocument(
+            Collection<?> businessIds,
+            String jsonApiType
+    ) {
+        return toResourceIdDocument(toResourceIds(businessIds, jsonApiType));
     }
 }
