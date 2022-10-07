@@ -137,8 +137,6 @@ public final class JsonApiPipelineExtensions {
      * Performs validation against a {@link JsonApiResource} object, such as
      * checking relationship validity.
      *
-     * @param <A> the resource's attribute type
-     * @param <M> the resource's meta type
      * @param <REQ> the request resource type
      * @param <D> the response data type
      * @param self the receiver
@@ -146,10 +144,10 @@ public final class JsonApiPipelineExtensions {
      *   produces an error, or a Right of the original request object
      */
     @SafeVarargs
-    public static <A, RM, REQ extends JsonApiResource<A, RM>, M, D>
-    Either<JsonApiErrorDocument<D>, JsonApiDataSingle<A, RM, REQ, M>>
-    validate(
-            Either<JsonApiErrorDocument<D>, JsonApiDataSingle<A, RM, REQ, M>> self,
+    public static <REQ extends JsonApiResource<?, ?>, M, D>
+    Either<JsonApiErrorDocument<D>, JsonApiDataSingle<REQ, M>>
+    validateSingle(
+            Either<JsonApiErrorDocument<D>, JsonApiDataSingle<REQ, M>> self,
             JsonApiValidationRule<? super REQ>... rules
     ) {
         return self.flatMap(single ->
@@ -157,7 +155,7 @@ public final class JsonApiPipelineExtensions {
                 .map(rule -> rule.validate(single.getData()))
                 .flatMap(Collection::stream)
                 .collect(JsonApiErrorDocument.<D> toJsonApiErrorDocument())
-                .<Either<JsonApiErrorDocument<D>, JsonApiDataSingle<A, RM, REQ, M>>> map(Either::left)
+                .<Either<JsonApiErrorDocument<D>, JsonApiDataSingle<REQ, M>>> map(Either::left)
                 .orElse(self)
         );
     }
@@ -256,15 +254,13 @@ public final class JsonApiPipelineExtensions {
     /**
      * Maps a resource object to a {@link JsonApiDataSingle} containing it.
      *
-     * @param <A> the resource's attribute type
-     * @param <RM> the resource's meta type
      * @param <R> the resource's type
      * @param self the receiver
      * @return a Right of a document containing the resource,
      *   or a Left if this object was already a Left
      */
-    public static <A, RM, R extends JsonApiResource<A, RM>>
-    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, R, Map<String, Object>>>
+    public static <R extends JsonApiResource<?, ?>>
+    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<R, Map<String, Object>>>
     mapToDataSingle(
             Either<JsonApiErrorDocument<R>, R> self
     ) {
@@ -276,15 +272,13 @@ public final class JsonApiPipelineExtensions {
      * Maps a {@code DomainAndResource} object to a {@link JsonApiDataSingle}
      * object containing the resource.
      *
-     * @param <A> the resource's attribute type
-     * @param <RM> the resource's meta type
      * @param <R> the resource's type
      * @param self the receiver
      * @return a Right of a document containing the resource,
      *   or a Left if this object was already a Left
      */
-    public static <A, RM, R extends JsonApiResource<A, RM>>
-    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, R, Map<String, Object>>>
+    public static <R extends JsonApiResource<?, ?>>
+    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<R, Map<String, Object>>>
     mapResourceToDataSingle(
             Either<JsonApiErrorDocument<R>, DomainAndResource<?, ? extends R>> self
     ) {

@@ -100,8 +100,8 @@ public final class JsonApiSpringWebMvcExtensions {
     }
 
 
-    private static <A, RM, R extends JsonApiResource<A, RM>>
-    HeadersAndBody<JsonApiDataSingle<A, RM, R, Map<String, Object>>> toDataSingleWithHeaders(
+    private static <R extends JsonApiResource<?, ?>>
+    HeadersAndBody<JsonApiDataSingle<R, Map<String, Object>>> toDataSingleWithHeaders(
             R self
     ) {
         return HeadersAndBody.of(JsonApiDataSingle.of(self));
@@ -112,15 +112,13 @@ public final class JsonApiSpringWebMvcExtensions {
      * Map a Resource object to a {@link HeadersAndBody} with a {@link JsonApiDataSingle} body
      * containing the resource.
      *
-     * @param <A> the attribute type of the resource
-     * @param <RM> the meta type of the resource
      * @param <R> the resource type
      * @param self the receiver
      * @return if this is a Resource, a {@code Right} of the Resource wrapped into a
      *   {@code HeadersAndBody<JsonApiDataSingle<R>>}; if this is a {@code Left}, returned unchanged
      */
-    public static <A, RM, R extends JsonApiResource<A, RM>>
-    Either<JsonApiErrorDocument<R>, HeadersAndBody<JsonApiDataSingle<A, RM, R, Map<String, Object>>>>
+    public static <R extends JsonApiResource<?, ?>>
+    Either<JsonApiErrorDocument<R>, HeadersAndBody<JsonApiDataSingle<R, Map<String, Object>>>>
     mapToDataSingleWithHeaders(
             Either<JsonApiErrorDocument<R>, R> self
     ) {

@@ -29,7 +29,7 @@ class PipelineValidateTest extends Specification {
 
         when:
         Either e = Either.right(dataSingle)
-            .validate(rules)
+            .validateSingle(rules)
 
         then:
         e.isRight()
@@ -48,7 +48,7 @@ class PipelineValidateTest extends Specification {
 
         when:
         Either e = Either.right(dataSingle)
-            .validate(rules)
+            .validateSingle(rules)
 
         then:
         e.isLeft()
@@ -70,7 +70,7 @@ class PipelineValidateTest extends Specification {
 
         when:
         Either e = Either.right(dataSingle)
-            .validate(rules)
+            .validateSingle(rules)
 
         then:
         e.isLeft()
