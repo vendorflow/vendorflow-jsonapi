@@ -13,6 +13,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import co.vendorflow.oss.jsonapi.groovy.pipeline.validation.JsonApiValidationRule;
+import co.vendorflow.oss.jsonapi.model.error.JsonApiError;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiDataCollection;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiDataSingle;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiErrorDocument;
@@ -20,6 +21,7 @@ import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
+import io.vavr.control.Try;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -82,6 +84,49 @@ public final class JsonApiPipelineExtensions {
             Either<JsonApiErrorDocument<D>, Option<DOM>> self
     ) {
         return self.flatMap(JsonApiPipelineExtensions::emptyTo404);
+    }
+
+
+    /* Starting from Try *****************************************************/
+
+    /**
+     * Convert a {@code Try} of a domain object to an {@code Either}: A Failure
+     * is converted to a Left of the exception as a {@link JsonApiError} in
+     * a document, and a Success leaves the domain object in a Right.
+     *
+     * @param <DOM> the type of the domain object
+     * @param <D> the expected data type of the response
+     * @param self the receiver
+     * @return a Left with an error document or a Right with the domain object
+     */
+    public static <DOM, D>
+    Either<JsonApiErrorDocument<D>, DOM>
+    failureToErrorDocument(
+            Try<DOM> self
+    ) {
+        return self.toEither()
+                .mapLeft(throwable -> JsonApiError.of(throwable).asDocument())
+                ;
+    }
+
+
+    /**
+     * Within an existing Either pipeline, flat-map a {@code Try} of a domain object
+     * to a Left of an error document if it is a Failure or a Right of the domain object
+     * if it is a Success.
+     *
+     * @param <DOM> the type of the domain object
+     * @param <D> the expected data type of the response
+     * @param self the receiver
+     * @return if this Either is already a Left, then the same value unchanged; otherwise,
+     *   a Left with an error document or a Right with the domain object
+     */
+    public static <DOM, D>
+    Either<JsonApiErrorDocument<D>, DOM>
+    flatMapFailureToErrorDocument(
+            Either<JsonApiErrorDocument<D>, Try<DOM>> self
+    ) {
+        return self.flatMap(JsonApiPipelineExtensions::failureToErrorDocument);
     }
 
 
@@ -207,6 +252,24 @@ public final class JsonApiPipelineExtensions {
         return self;
     }
 
+    /**
+     * Maps a resource object to a {@link JsonApiDataSingle} containing it.
+     *
+     * @param <A> the resource's attribute type
+     * @param <RM> the resource's meta type
+     * @param <R> the resource's type
+     * @param self the receiver
+     * @return a Right of a document containing the resource,
+     *   or a Left if this object was already a Left
+     */
+    public static <A, RM, R extends JsonApiResource<A, RM>>
+    Either<JsonApiErrorDocument<R>, JsonApiDataSingle<A, RM, R, Map<String, Object>>>
+    mapToDataSingle(
+            Either<JsonApiErrorDocument<R>, R> self
+    ) {
+        return self.map(JsonApiDataSingle::of);
+    }
+
 
     /**
      * Maps a {@code DomainAndResource} object to a {@link JsonApiDataSingle}
@@ -229,6 +292,25 @@ public final class JsonApiPipelineExtensions {
 
 
     /**
+     * Maps a collection of resource objects to a {@link JsonApiDataCollection} containing it.
+     *
+     * @param <A> the resources' attribute type
+     * @param <RM> the resources' meta type
+     * @param <R> the resources' type
+     * @param self the receiver
+     * @return a Right of a document containing the resources,
+     *   or a Left if this object was already a Left
+     */
+    public static <A, RM, R extends JsonApiResource<A, RM>>
+    Either<JsonApiErrorDocument<R>, JsonApiDataCollection<A, RM, R, Map<String, Object>>>
+    mapToDataCollection(
+            Either<JsonApiErrorDocument<R>, ? extends Collection<R>> self
+    ) {
+        return self.map(JsonApiDataCollection::of);
+    }
+
+
+    /**
      * Maps a collection of {@code DomainAndResource} objects to a {@link JsonApiDataCollection}
      * object containing the resources.
      *
@@ -240,7 +322,7 @@ public final class JsonApiPipelineExtensions {
      *   or a Left if this object was already a Left
      */
     public static <A, RM, R extends JsonApiResource<A, RM>>
-    Either<JsonApiErrorDocument<Collection<R>>, JsonApiDataCollection<A, RM, Map<String, Object>, R>>
+    Either<JsonApiErrorDocument<Collection<R>>, JsonApiDataCollection<A, RM, R, Map<String, Object>>>
     mapResourcesToDataCollection(
             Either<JsonApiErrorDocument<Collection<R>>, ? extends Collection<DomainAndResource<?, R>>> self
     ) {

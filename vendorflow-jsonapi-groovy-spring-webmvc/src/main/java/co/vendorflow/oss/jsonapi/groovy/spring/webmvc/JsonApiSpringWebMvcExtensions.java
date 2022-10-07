@@ -1,17 +1,22 @@
 package co.vendorflow.oss.jsonapi.groovy.spring.webmvc;
 
+import static co.vendorflow.oss.jsonapi.groovy.pipeline.JsonApiPipelineExtensions.mapToDataSingle;
 import static lombok.AccessLevel.PRIVATE;
 
 import java.util.Map;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 
+import co.vendorflow.oss.jsonapi.groovy.pipeline.JsonApiPipelineExtensions;
 import co.vendorflow.oss.jsonapi.model.error.JsonApiError;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiDataSingle;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiDocument;
 import co.vendorflow.oss.jsonapi.model.request.JsonApiErrorDocument;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -120,5 +125,57 @@ public final class JsonApiSpringWebMvcExtensions {
             Either<JsonApiErrorDocument<R>, R> self
     ) {
         return self.map(JsonApiSpringWebMvcExtensions::toDataSingleWithHeaders);
+    }
+
+
+    /* Canned pipelines ******************************************************/
+
+    /**
+     * Shorthand for:
+     * <pre> .mapToDataSingle()
+     * .foldToResponseEntity()</pre>
+     */
+    public static <A, RM, R extends JsonApiResource<A, RM>>
+    ResponseEntity<JsonApiDocument<R, ?>>
+    resourceToResponseEntity(
+            Either<JsonApiErrorDocument<R>, R> self
+    ) {
+        return foldToResponseEntity(mapToDataSingle(self));
+    }
+
+
+    /**
+     * Shorthand for:
+     * <pre> .emptyTo404()
+     * .map(mapper)
+     * .mapToDataSingle()
+     * .foldToResponseEntity()</pre>
+     */
+    public static <DOM, A, RM, R extends JsonApiResource<A, RM>>
+    ResponseEntity<JsonApiDocument<R, ?>>
+    standardSinglePipeline(
+            Option<DOM> self,
+            Function<? super DOM, ? extends R> mapper
+    ) {
+        var either = JsonApiPipelineExtensions.<DOM, R> emptyTo404(self).<R> map(mapper);
+        return resourceToResponseEntity(either);
+    }
+
+
+    /**
+     * Shorthand for
+     * <pre> .failureToErrorDocument()
+     * .map(mapper)
+     * .mapToDataSingle()
+     * .foldToResponseEntity()</pre>
+     */
+    public static <DOM, A, RM, R extends JsonApiResource<A, RM>>
+    ResponseEntity<JsonApiDocument<R, ?>>
+    standardSinglePipeline(
+            Try<DOM> self,
+            Function<? super DOM, ? extends R> mapper
+    ) {
+        var either = JsonApiPipelineExtensions.<DOM, R> failureToErrorDocument(self).<R> map(mapper);
+        return resourceToResponseEntity(either);
     }
 }
