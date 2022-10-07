@@ -6,6 +6,7 @@ import static lombok.AccessLevel.PACKAGE;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Stream;
 
 import lombok.Getter;
@@ -45,7 +46,7 @@ public final class JsonApiRelationship {
      *
      * @return the included resources' IDs
      */
-    public Collection<JsonApiResourceId> getData() {
+    public List<JsonApiResourceId> getData() {
         return dataStream().collect(toList());
     }
 

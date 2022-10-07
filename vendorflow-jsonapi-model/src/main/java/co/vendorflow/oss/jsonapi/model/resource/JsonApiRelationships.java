@@ -5,6 +5,7 @@ import static java.util.Collections.unmodifiableSet;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -46,6 +47,19 @@ public class JsonApiRelationships {
 
     public Optional<JsonApiRelationship> get(String rel) {
         return Optional.ofNullable(values.get(rel));
+    }
+
+
+    public JsonApiResourceId getSingle(String rel) {
+        var ids = get(rel)
+            .orElseThrow(() -> new NoSuchElementException("no relationship named " + rel + " present"))
+            .getData();
+
+        if (ids.size() != 1) {
+            throw new IllegalStateException("relationship named " + rel + " had " + ids.size() + " members");
+        }
+
+        return ids.get(0);
     }
 
 
