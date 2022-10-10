@@ -184,6 +184,7 @@ public final class JsonApiPipelineExtensions {
      * checking relationship validity.
      *
      * @param <REQ> the request resource type
+     * @param <M> the request document meta type
      * @param <D> the response data type
      * @param self the receiver
      * @return a Left of an existing error document, or a Left if any validation rule
@@ -204,6 +205,27 @@ public final class JsonApiPipelineExtensions {
                 .<Either<JsonApiErrorDocument<D>, JsonApiDataSingle<REQ, M>>> map(Either::left)
                 .orElse(self)
         );
+    }
+
+
+    /**
+     * Performs validation against a {@link JsonApiResource} object, such as
+     * checking relationship validity.
+     *
+     * @param <REQ> the request resource type
+     * @param <M> the request document meta type
+     * @param <D> the response data type
+     * @param self the single-valued data document
+     * @return a Left if any validation rule produces an error, or a Right of the request document
+     */
+    @SafeVarargs
+    public static <REQ extends JsonApiResource<?, ?>, M, D>
+    Either<JsonApiErrorDocument<D>, JsonApiDataSingle<REQ, M>>
+    validateSingle(
+            JsonApiDataSingle<REQ, M> self,
+            JsonApiValidationRule<? super REQ>... rules
+    ) {
+        return validateSingle(Either.right(self), rules);
     }
 
 
