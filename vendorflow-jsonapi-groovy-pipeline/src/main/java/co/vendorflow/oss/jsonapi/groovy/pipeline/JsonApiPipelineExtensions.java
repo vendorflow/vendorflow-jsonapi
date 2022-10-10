@@ -21,6 +21,7 @@ import co.vendorflow.oss.jsonapi.model.request.JsonApiErrorDocument;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId;
 import io.vavr.CheckedConsumer;
+import io.vavr.CheckedFunction1;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
@@ -151,6 +152,28 @@ public final class JsonApiPipelineExtensions {
             CheckedConsumer<T> consumer
     ) {
         return self.flatMap(value -> failureToErrorDocument(Try.success(value).andThenTry(consumer)));
+    }
+
+
+    /**
+     * Attempt a function on the current value; if it succeeds, proceed, but if it fails,
+     * return the error in an error document.
+     *
+     * @param <T> the current pipeline value
+     * @param <U> the return type of the function
+     * @param <D> the expected data type of the response
+     * @param self the receiver
+     * @param mapper the mapping function
+     * @return if this is a Left of an error document, the same Left; otherwise,
+     *   a Right of the function's return value or a Left if the function throws an exception
+     */
+    public static <T, U, D>
+    Either<JsonApiErrorDocument<D>, U>
+    flatMapTry(
+            Either<JsonApiErrorDocument<D>, T> self,
+            CheckedFunction1<T, U> mapper
+    ) {
+        return self.flatMap(value -> failureToErrorDocument(Try.success(value).mapTry(mapper)));
     }
 
 
