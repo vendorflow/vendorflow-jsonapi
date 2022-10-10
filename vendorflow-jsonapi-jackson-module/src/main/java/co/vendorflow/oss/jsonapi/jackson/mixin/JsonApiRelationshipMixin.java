@@ -30,6 +30,9 @@ public interface JsonApiRelationshipMixin extends JsonApiJacksonMixin {
     @JsonInclude(NON_EMPTY)
     List<JsonApiResourceId> getData();
 
+    @JsonIgnore
+    boolean isSingleValued();
+
 
     @Getter
     @Setter
