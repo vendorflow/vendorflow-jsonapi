@@ -91,12 +91,13 @@ public final class JsonApiSpringWebMvcExtensions {
      * @param self the receiver
      * @return the {@code ResponseEntity} in the Right or a {@code ResponseEntity} containing the {@code errors} in the Left
      */
+    @SuppressWarnings("unchecked") // because the ResponseEntity's body is not rewritable
     public static <D>
     ResponseEntity<JsonApiDocument<D, ?>>
     foldErrorsAndResponseEntity(
-            Either<JsonApiErrorDocument<D>, ResponseEntity<JsonApiDocument<D, ?>>> self
+            Either<JsonApiErrorDocument<D>, ResponseEntity<? extends JsonApiDocument<D, ?>>> self
     ) {
-        return self.getOrElseGet(JsonApiSpringWebMvcExtensions::toResponseEntity);
+        return (ResponseEntity<JsonApiDocument<D, ?>>) self.getOrElseGet(JsonApiSpringWebMvcExtensions::toResponseEntity);
     }
 
 
