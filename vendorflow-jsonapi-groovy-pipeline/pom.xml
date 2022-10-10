@@ -7,7 +7,7 @@
     <parent>
         <groupId>co.vendorflow.oss.jsonapi</groupId>
         <artifactId>vendorflow-jsonapi-parent</artifactId>
-        <version>0.5.1</version>
+        <version>0.5.2</version>
     </parent>
 
     <artifactId>vendorflow-jsonapi-groovy-pipeline</artifactId>
