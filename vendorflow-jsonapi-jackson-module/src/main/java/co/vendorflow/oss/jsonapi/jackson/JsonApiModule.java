@@ -45,14 +45,14 @@ public class JsonApiModule extends SimpleModule {
 
 
     @SuppressWarnings("unused")
-    private final String namespace;
+    private final String api;
 
     public JsonApiModule() {
         this("");
     }
 
-    public JsonApiModule(String namespace) {
-        this.namespace = namespace;
+    public JsonApiModule(String api) {
+        this.api = api;
 
         MIXINS.forEach(this::setMixInAnnotation);
     }

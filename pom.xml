@@ -14,12 +14,13 @@
         <maven.compiler.release>11</maven.compiler.release>
         <gmavenplus.version>1.13.1</gmavenplus.version>
 
-        <groovy4.version>4.0.5</groovy4.version>
+        <groovy4.version>4.0.13</groovy4.version>
 
+        <spring-boot.version>2.7.14</spring-boot.version>
         <jackson.version>2.13.3</jackson.version>
         <vavr.version>0.10.3</vavr.version>
 
-        <spock.version>2.2-M1-groovy-4.0</spock.version>
+        <spock.version>2.4-M1-groovy-4.0</spock.version>
     </properties>
 
     <modules>
@@ -27,6 +28,8 @@
         <module>vendorflow-jsonapi-groovy-pipeline</module>
         <module>vendorflow-jsonapi-groovy-spring-webmvc</module>
         <module>vendorflow-jsonapi-jackson-module</module>
+        <module>vendorflow-jsonapi-spring</module>
+        <module>vendorflow-jsonapi-spring-boot-starter</module>
         <module>vendorflow-jsonapi-annotation-processor-support</module>
         <module>vendorflow-jsonapi-java-annotation-processor</module>
         <module>vendorflow-jsonapi-groovy-annotation-processor</module>
@@ -46,6 +49,14 @@
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
                 <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
