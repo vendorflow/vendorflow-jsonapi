@@ -8,6 +8,13 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = PRIVATE)
 public final class JsonApiErrors {
+    public static final String BAD_QUERY_CODE_PREFIX = "http.client.query.";
+
+    public static JsonApiError badQuery(String code) {
+        return new JsonApiError(400, code);
+    }
+
+
     public static final String NOT_FOUND_CODE = "http.client.NOT_FOUND";
 
     public static JsonApiError notFound() {
