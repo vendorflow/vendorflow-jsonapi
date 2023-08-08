@@ -34,12 +34,12 @@ class JsonApiSortHandlerMethodArgumentResolverTest extends AbstractJsonApiSpring
         when:
         mockMvc.perform(
                 get(PATH)
-                    .queryParam('selector', 'unsortedStuff')
+                    .queryParam('stringQueryValue', 'unsortedStuff')
             )
             .andExpect(status().is2xxSuccessful())
 
         then:
-        'unsortedStuff' == capture.selector
+        'unsortedStuff' == capture.stringQueryValue
         Sort.unsorted() == capture.sort
     }
 
@@ -64,13 +64,13 @@ class JsonApiSortHandlerMethodArgumentResolverTest extends AbstractJsonApiSpring
         when:
         mockMvc.perform(
                 get(PATH)
-                    .queryParam('selector', 'jsonApi')
+                    .queryParam('stringQueryValue', 'jsonApi')
                     .queryParam(JSON_API_SORT, 'propA,-propB,propC')
             )
             .andExpect(status().is2xxSuccessful())
 
         then:
-        'jsonApi' == capture.selector
+        'jsonApi' == capture.stringQueryValue
         Sort.by(asc('propA'), desc('propB'), asc('propC')) == capture.sort
     }
 
@@ -102,7 +102,7 @@ class JsonApiSortHandlerMethodArgumentResolverTest extends AbstractJsonApiSpring
 
         then:
         var params = UriComponentsBuilder.fromHttpUrl(json.url).build().queryParams
-        ['builder'] == params.selector
+        ['builderValue'] == params.stringQueryValue
         ['up,-down'] == params[JSON_API_SORT]
     }
 
@@ -114,27 +114,31 @@ class JsonApiSortHandlerMethodArgumentResolverTest extends AbstractJsonApiSpring
         public static final String HAS_DEFAULTS = '/hasDefaults'
         public static final String BUILD_URL = '/build'
 
-        String selector
+        String stringQueryValue
         Sort sort
 
         @GetMapping
         void capture(
-                @RequestParam(required = false) String selector,
-                Sort sort
+                @RequestParam(required = false) String stringQueryValue,
+                /* no SortDefault */ Sort sort
         ) {
-            this.selector = selector
+            this.stringQueryValue = stringQueryValue
             this.sort = sort
         }
 
+
         @GetMapping(HAS_DEFAULTS)
-        void captureDefault(@SortDefault(sort = 'propDef', direction = DESC) Sort sort) {
+        void captureDefault(
+                @SortDefault(sort = 'propDef', direction = DESC) Sort sort
+        ) {
             this.sort = sort
         }
+
 
         @GetMapping(BUILD_URL)
         def buildUrl(UriComponentsBuilder ucb) {
             [url: MvcUriComponentsBuilder
-                    .fromMethodName(ucb, CaptureController, 'capture', 'builder', Sort.by(asc('up'), desc('down')))
+                    .fromMethodName(ucb, CaptureController, 'capture', 'builderValue', Sort.by(asc('up'), desc('down')))
                     .toUriString()]
         }
     }
