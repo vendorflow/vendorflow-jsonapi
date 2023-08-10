@@ -1,19 +1,16 @@
 package co.vendorflow.oss.jsonapi.spring.web;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
-import static org.springframework.data.domain.Sort.Direction.DESC;
+import static co.vendorflow.oss.jsonapi.spring.web.JsonApiSpringDataUtils.JSON_API_SORT_DELIMITER;
+import static co.vendorflow.oss.jsonapi.spring.web.JsonApiSpringDataUtils.JSON_API_SORT_PARAMETER;
+import static co.vendorflow.oss.jsonapi.spring.web.JsonApiSpringDataUtils.parameterValue;
+import static co.vendorflow.oss.jsonapi.spring.web.JsonApiSpringDataUtils.parseSortParameter;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.web.HateoasSortHandlerMethodArgumentResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
@@ -30,10 +27,6 @@ import co.vendorflow.oss.jsonapi.model.error.JsonApiError;
 import co.vendorflow.oss.jsonapi.model.error.JsonApiErrors;
 
 public class JsonApiSortHandlerMethodArgumentResolver extends HateoasSortHandlerMethodArgumentResolver implements UriComponentsContributor {
-    public static final String JSON_API_SORT_PARAMETER = "sort";
-    public static final String JSON_API_SORT_DELIMITER = ",";
-    public static final String JSON_API_SORT_DESCENDING = "-";
-
     public JsonApiSortHandlerMethodArgumentResolver() {
         // redundant, but to ensure no future changes in defaults could break this
         super.setSortParameter(JSON_API_SORT_PARAMETER);
@@ -75,28 +68,7 @@ public class JsonApiSortHandlerMethodArgumentResolver extends HateoasSortHandler
             throw new TooManySortParametersException();
         }
 
-        return parseParameterIntoSort(directionParameter[0]);
-    }
-
-
-    static Sort parseParameterIntoSort(String parameter) {
-        return Arrays.stream(parameter.split(JSON_API_SORT_DELIMITER))
-            .map(JsonApiSortHandlerMethodArgumentResolver::propToOrder)
-            .collect(collectingAndThen(toList(), Sort::by));
-    }
-
-
-    static Order propToOrder(String prop) {
-        return prop.startsWith(JSON_API_SORT_DESCENDING)
-            ? Order.desc(prop.substring(1))
-            : Order.asc(prop);
-    }
-
-
-    static String sortToJsonApiParameter(Sort sort) {
-        return stream(sort.spliterator(), false)
-                .map(order -> (order.getDirection() == DESC ? JSON_API_SORT_DESCENDING : "") + order.getProperty())
-                .collect(joining(JSON_API_SORT_DELIMITER));
+        return parseSortParameter(directionParameter[0]);
     }
 
 
@@ -108,13 +80,13 @@ public class JsonApiSortHandlerMethodArgumentResolver extends HateoasSortHandler
         }
 
         Sort sort = (Sort) value;
-        builder.replaceQueryParam(JSON_API_SORT_PARAMETER, sortToJsonApiParameter(sort));
+        builder.replaceQueryParam(JSON_API_SORT_PARAMETER, parameterValue(sort));
     }
 
 
     @Override
     protected List<String> foldIntoExpressions(Sort sort) {
-        return List.of(sortToJsonApiParameter(sort));
+        return List.of(parameterValue(sort));
     }
 
 
@@ -127,6 +99,4 @@ public class JsonApiSortHandlerMethodArgumentResolver extends HateoasSortHandler
             return JsonApiErrors.badQuery(TOO_MANY_SORT_PARAMETERS_CODE);
         }
     }
-
-
 }
