@@ -7,7 +7,7 @@
     <parent>
         <groupId>co.vendorflow.oss.jsonapi</groupId>
         <artifactId>vendorflow-jsonapi-parent</artifactId>
-        <version>0.5.8</version>
+        <version>0.5.9</version>
     </parent>
 
     <artifactId>vendorflow-jsonapi-spring-boot-starter</artifactId>
