@@ -14,9 +14,9 @@
         <maven.compiler.release>11</maven.compiler.release>
         <gmavenplus.version>1.13.1</gmavenplus.version>
 
-        <groovy4.version>4.0.13</groovy4.version>
+        <groovy4.version>4.0.17</groovy4.version>
 
-        <spring-boot.version>2.7.14</spring-boot.version>
+        <spring-boot.version>2.7.18</spring-boot.version>
         <jackson.version>2.13.3</jackson.version>
         <vavr.version>0.10.3</vavr.version>
 

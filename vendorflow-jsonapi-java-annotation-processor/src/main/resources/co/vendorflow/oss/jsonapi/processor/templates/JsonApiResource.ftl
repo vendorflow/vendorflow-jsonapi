@@ -36,6 +36,7 @@ public final class ${rci.simpleName}
     return new StringBuilder("${rci.simpleName}")
       .append("[id=").append(getId())
       .append(", attributes=").append(getAttributes())
+      .append(", relationships=").append(getRelationships())
       .append(", links=").append(getLinks())
       .append(", meta=").append(getMeta())
       .append(']').toString();

@@ -14,7 +14,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(of = { "id", "attributes", "relationships", "links", "meta" })
 public abstract class JsonApiResource<A, M> implements HasJsonApiMeta<M>, HasJsonApiLinks, HasJsonApiResourceId {
 
     public abstract String getType();
