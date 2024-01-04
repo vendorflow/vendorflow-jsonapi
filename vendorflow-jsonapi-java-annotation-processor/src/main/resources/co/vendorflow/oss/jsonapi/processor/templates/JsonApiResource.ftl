@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @Generated("co.vendorflow.oss.jsonapi.processor.AttributesToDtoProcessor")
 public final class ${rci.simpleName} 
     extends JsonApiResource<
-        ${attr.qualifiedName},
+        ${attrClassQualifiedName},
         ${rci.metaTypeParameter}
     >
 {
@@ -25,9 +25,9 @@ public final class ${rci.simpleName}
   
   public static JsonApiResourceId id(Object id) { return JsonApiResourceId.of(TYPE, id); }
   
-  @Override public void setAttributes(${attr.qualifiedName} value) { super.setAttributes(value); }
+  @Override public void setAttributes(${attrClassQualifiedName} value) { super.setAttributes(value); }
   <#if !rci.attributesNullable>
-  @Override @Valid @NotNull public ${attr.qualifiedName} getAttributes() { return super.getAttributes(); }
+  @Override @Valid @NotNull public ${attrClassQualifiedName} getAttributes() { return super.getAttributes(); }
   </#if>
   
   @Override public void setMeta(${rci.metaTypeParameter} value) { super.setMeta(value); }

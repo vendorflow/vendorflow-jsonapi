@@ -34,7 +34,8 @@ public class AttributesToDtoProcessor extends FreemarkerProcessor {
 
     void generateResourceAndRegistration(TypeElement attrClass) {
         var rci = forElement(attrClass, processingEnv.getElementUtils());
-        writeClass("JsonApiResource", rci.getFqcn(), Map.of("rci", rci, "attr", attrClass), attrClass);
+        var attrClassQualifiedName = attrClass.getQualifiedName();
+        writeClass("JsonApiResource", rci.getFqcn(), Map.of("rci", rci, "attrClassQualifiedName", attrClassQualifiedName), attrClass);
     }
 
     public static ResourceClassInfo forElement(TypeElement attr, Elements elements) {
