@@ -2,21 +2,18 @@ package co.vendorflow.oss.jsonapi.processor;
 
 import static co.vendorflow.oss.jsonapi.processor.support.ResourceClassInfo.JAA_CLASS_NAME;
 import static java.util.stream.Collectors.toMap;
-import static javax.lang.model.SourceVersion.RELEASE_9;
 
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 
 import co.vendorflow.oss.jsonapi.processor.support.ResourceClassInfo;
 
 @SupportedAnnotationTypes("co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes")
-@SupportedSourceVersion(RELEASE_9)
 public class AttributesToDtoProcessor extends FreemarkerProcessor {
 
     @Override

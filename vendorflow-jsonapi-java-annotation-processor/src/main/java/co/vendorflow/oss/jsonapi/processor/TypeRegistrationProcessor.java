@@ -1,6 +1,5 @@
 package co.vendorflow.oss.jsonapi.processor;
 
-import static javax.lang.model.SourceVersion.RELEASE_9;
 import static javax.tools.Diagnostic.Kind.ERROR;
 import static javax.tools.Diagnostic.Kind.NOTE;
 import static javax.tools.StandardLocation.CLASS_OUTPUT;
@@ -13,7 +12,6 @@ import java.util.Set;
 
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
@@ -24,7 +22,6 @@ import co.vendorflow.oss.jsonapi.model.resource.JsonApiType;
 import co.vendorflow.oss.jsonapi.processor.support.TypeRegistrationClassInfo;
 
 @SupportedAnnotationTypes("co.vendorflow.oss.jsonapi.model.resource.JsonApiType")
-@SupportedSourceVersion(RELEASE_9)
 public class TypeRegistrationProcessor extends FreemarkerProcessor {
     private static final String JAT_CLASS_NAME = JsonApiType.class.getName();
 
