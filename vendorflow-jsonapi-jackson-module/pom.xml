@@ -7,7 +7,7 @@
     <parent>
         <groupId>co.vendorflow.oss.jsonapi</groupId>
         <artifactId>vendorflow-jsonapi-parent</artifactId>
-        <version>0.5.10</version>
+        <version>0.6.0</version>
     </parent>
 
     <artifactId>vendorflow-jsonapi-jackson-module</artifactId>
