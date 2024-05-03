@@ -1,4 +1,4 @@
-package co.vendorflow.oss.jsonapi.groovy.pipeline.validation;
+package co.vendorflow.oss.jsonapi.groovy.pipeline.validation.rules;
 
 import static java.util.Arrays.asList;
 import static lombok.AccessLevel.PRIVATE;

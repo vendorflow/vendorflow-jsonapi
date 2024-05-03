@@ -1,6 +1,6 @@
 package co.vendorflow.oss.jsonapi.groovy.pipeline
 
-import static co.vendorflow.oss.jsonapi.groovy.pipeline.validation.RelationshipRules.*
+import static co.vendorflow.oss.jsonapi.groovy.pipeline.validation.rules.RelationshipRules.*
 
 import co.vendorflow.oss.jsonapi.groovy.pipeline.validation.JsonApiValidationRule
 import co.vendorflow.oss.jsonapi.model.request.JsonApiDataSingle

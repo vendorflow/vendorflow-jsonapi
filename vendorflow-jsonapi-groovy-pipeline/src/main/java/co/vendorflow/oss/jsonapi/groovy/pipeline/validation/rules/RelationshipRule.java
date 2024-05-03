@@ -1,8 +1,9 @@
-package co.vendorflow.oss.jsonapi.groovy.pipeline.validation;
+package co.vendorflow.oss.jsonapi.groovy.pipeline.validation.rules;
 
 import java.util.Collection;
 import java.util.Optional;
 
+import co.vendorflow.oss.jsonapi.groovy.pipeline.validation.JsonApiValidationRule;
 import co.vendorflow.oss.jsonapi.model.error.JsonApiError;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiRelationship;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;

@@ -1,4 +1,4 @@
-package co.vendorflow.oss.jsonapi.groovy.pipeline.validation;
+package co.vendorflow.oss.jsonapi.groovy.pipeline.validation.rules;
 
 import static co.vendorflow.oss.jsonapi.model.error.JsonApiErrors.unprocessableEntity;
 
