@@ -3,8 +3,7 @@ package co.vendorflow.oss.jsonapi.model.resource
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric
 
-import org.apache.commons.lang3.RandomStringUtils
-
+import spock.lang.Rollup
 import spock.lang.Specification
 
 class JsonApiRelationshipsTest extends Specification {
@@ -34,7 +33,7 @@ class JsonApiRelationshipsTest extends Specification {
         ex.message.contains 'nonexistent'
     }
 
-
+    @Rollup
     def 'getSingle throws when the relationship is non-single'(ids) {
         given:
         jar.add('notsingle') { it.linkTo(ids) }

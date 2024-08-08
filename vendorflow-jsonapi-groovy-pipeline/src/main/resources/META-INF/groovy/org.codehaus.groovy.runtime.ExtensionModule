@@ -1,4 +1,5 @@
 moduleName=JSON:API Pipeline extensions
 moduleVersion=0.0.1
 extensionClasses=\
-    co.vendorflow.oss.jsonapi.groovy.pipeline.JsonApiPipelineExtensions
+    co.vendorflow.oss.jsonapi.groovy.pipeline.JsonApiPipelineExtensions,\
+    co.vendorflow.oss.jsonapi.groovy.pipeline.JsonApiVavrExtensions
