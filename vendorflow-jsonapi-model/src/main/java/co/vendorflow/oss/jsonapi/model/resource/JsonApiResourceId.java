@@ -27,7 +27,7 @@ public final class JsonApiResourceId implements HasJsonApiResourceId {
         return new JsonApiResourceId(type, String.valueOf(id));
     }
 
-    public static List<JsonApiResourceId> ofAll(String type, Collection<Object> ids) {
+    public static List<JsonApiResourceId> ofAll(String type, Collection<?> ids) {
         return ids.stream().map(id -> of(type, id)).collect(toList());
     }
 }
