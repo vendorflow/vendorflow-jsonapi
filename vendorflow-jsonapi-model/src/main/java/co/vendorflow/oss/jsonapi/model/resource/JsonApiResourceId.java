@@ -20,9 +20,16 @@ public final class JsonApiResourceId implements HasJsonApiResourceId {
 
     @Override
     public String toString() {
-        return new StringBuilder(type).append('/').append(id).toString();
+        return type + '/' + id;
     }
 
+    public static JsonApiResourceId parseSlashString(String slashy) {
+        final var parts = slashy.split("/", 2);
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("ID string " + slashy + " must consist of two parts");
+        }
+        return new JsonApiResourceId(parts[0], parts[1]);
+    }
 
     public static JsonApiResourceId of(String type, Object id) {
         return new JsonApiResourceId(type, String.valueOf(id));
