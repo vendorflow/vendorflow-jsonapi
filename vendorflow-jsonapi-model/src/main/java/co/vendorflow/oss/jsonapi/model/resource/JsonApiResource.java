@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import co.vendorflow.oss.jsonapi.model.HasJsonApiMeta;
 import co.vendorflow.oss.jsonapi.model.links.HasJsonApiLinks;
 import co.vendorflow.oss.jsonapi.model.links.JsonApiLinks;
+import co.vendorflow.oss.jsonapi.model.resource.id.CompositeId;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,6 +22,15 @@ public abstract class JsonApiResource<A, M> implements HasJsonApiMeta<M>, HasJso
 
     @Size(min = 1)
     String id;
+
+    final void setId(String id) {
+        this.id = id;
+    }
+
+    final void setId(CompositeId compositeId) {
+        this.id = compositeId.toString();
+    }
+
 
     @Valid
     A attributes;
