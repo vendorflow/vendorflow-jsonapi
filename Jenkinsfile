@@ -1,3 +1,3 @@
 @Library('github.com/vendorflow/jenkins-pipeline@feature/sdk') _
 
-vendorflowSdkPipeline jdk: 'jdk17'
+vendorflowSdkPipeline jdk: 'jdk25'

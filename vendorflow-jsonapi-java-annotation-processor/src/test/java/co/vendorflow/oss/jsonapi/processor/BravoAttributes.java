@@ -1,7 +1,7 @@
 package co.vendorflow.oss.jsonapi.processor;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiAttributes;
 import lombok.Data;

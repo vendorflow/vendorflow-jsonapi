@@ -15,7 +15,7 @@ import static org.codehaus.groovy.ast.tools.GeneralUtils.stmt
 import static org.codehaus.groovy.ast.tools.GeneralUtils.varX
 import static org.codehaus.groovy.ast.tools.GenericsUtils.makeClassSafeWithGenerics
 
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotNull
 
 import org.codehaus.groovy.ast.AnnotatedNode
 import org.codehaus.groovy.ast.ClassNode

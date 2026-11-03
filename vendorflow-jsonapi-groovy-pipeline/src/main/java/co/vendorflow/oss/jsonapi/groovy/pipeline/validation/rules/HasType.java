@@ -6,7 +6,7 @@ import static lombok.AccessLevel.PACKAGE;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import co.vendorflow.oss.jsonapi.groovy.pipeline.validation.JsonApiValidationRule;
 import co.vendorflow.oss.jsonapi.model.error.JsonApiError;

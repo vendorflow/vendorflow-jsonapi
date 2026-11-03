@@ -1,7 +1,7 @@
 package co.vendorflow.oss.jsonapi.processor
 
-import javax.validation.Validation
-import javax.validation.Validator
+import jakarta.validation.Validation
+import jakarta.validation.Validator
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
 

@@ -101,7 +101,7 @@ class JsonApiSortHandlerMethodArgumentResolverTest extends AbstractJsonApiSpring
         var json = jsonSlurper.parseText(body)
 
         then:
-        var params = UriComponentsBuilder.fromHttpUrl(json.url).build().queryParams
+        var params = UriComponentsBuilder.fromUriString(json.url).build().queryParams
         ['builderValue'] == params.stringQueryValue
         ['up,-down'] == params[JSON_API_SORT]
     }

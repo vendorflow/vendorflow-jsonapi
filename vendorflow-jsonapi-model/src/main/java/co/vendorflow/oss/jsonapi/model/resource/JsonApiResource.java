@@ -2,8 +2,8 @@ package co.vendorflow.oss.jsonapi.model.resource;
 
 import java.util.function.Consumer;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Size;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 
 import co.vendorflow.oss.jsonapi.model.HasJsonApiMeta;
 import co.vendorflow.oss.jsonapi.model.links.HasJsonApiLinks;

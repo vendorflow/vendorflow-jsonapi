@@ -1,6 +1,6 @@
 package ${tr.packageName};
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 import co.vendorflow.oss.jsonapi.jackson.JsonApiTypeRegistration;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;

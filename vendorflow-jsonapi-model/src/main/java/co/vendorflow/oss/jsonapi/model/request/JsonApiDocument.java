@@ -1,6 +1,6 @@
 package co.vendorflow.oss.jsonapi.model.request;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import co.vendorflow.oss.jsonapi.model.HasJsonApiMeta;
 import co.vendorflow.oss.jsonapi.model.links.HasJsonApiLinks;

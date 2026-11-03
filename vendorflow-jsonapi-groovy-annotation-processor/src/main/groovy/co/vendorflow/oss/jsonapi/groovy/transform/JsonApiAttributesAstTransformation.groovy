@@ -31,7 +31,7 @@ import static org.codehaus.groovy.ast.tools.GenericsUtils.makeClassSafeWithGener
 import static org.codehaus.groovy.control.CompilePhase.SEMANTIC_ANALYSIS
 import static org.codehaus.groovy.control.messages.WarningMessage.LIKELY_ERRORS
 
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotNull
 
 import org.codehaus.groovy.ast.ASTNode
 import org.codehaus.groovy.ast.AnnotatedNode

@@ -1,8 +1,8 @@
 package ${rci.packageName};
 
-import javax.annotation.Generated;
-import javax.validation.constraints.NotNull;
-import javax.validation.Valid;
+import javax.annotation.processing.Generated;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
 
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResource;
 import co.vendorflow.oss.jsonapi.model.resource.JsonApiResourceId;

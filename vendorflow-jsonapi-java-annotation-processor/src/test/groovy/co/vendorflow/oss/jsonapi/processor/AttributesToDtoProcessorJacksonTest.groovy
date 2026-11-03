@@ -2,12 +2,12 @@ package co.vendorflow.oss.jsonapi.processor
 
 import static com.fasterxml.jackson.databind.SerializationFeature.INDENT_OUTPUT
 
-import javax.validation.Path.PropertyNode
-import javax.validation.Validation
-import javax.validation.Validator
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Size
+import jakarta.validation.Path.PropertyNode
+import jakarta.validation.Validation
+import jakarta.validation.Validator
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Size
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator
 
